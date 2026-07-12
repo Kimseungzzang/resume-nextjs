@@ -39,8 +39,22 @@ export declare namespace IProject {
     endedAt?: string;
 
     /**
+     * ### 프로젝트 한 줄 요약
+     *
+     * @description undefined 가 아닐 경우 회사명(where) 아래, 상세 설명 리스트 위에 불릿 없이 표시된다.
+     */
+    summary?: string;
+
+    /**
      * ### 프로젝트 설명
      */
     descriptions: IRow.Description[];
+
+    /**
+     * ### 프로젝트에 사용한 기술 스택
+     *
+     * @description undefined 가 아닐 경우 설명 리스트 아래에 뱃지 형태로 표시된다.
+     */
+    skillKeywords?: string[];
   }
 }

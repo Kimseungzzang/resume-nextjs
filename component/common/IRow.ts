@@ -12,7 +12,19 @@ export declare namespace IRow {
   export interface Right {
     title?: string;
     subTitle?: string;
+    /**
+     * ### subTitle 아래, 설명 리스트 위에 표시할 프로젝트 한 줄 설명
+     *
+     * @description `undefined` 가 아닐 경우 불릿 없이 별도 줄로 표시된다.
+     */
+    summary?: string;
     descriptions?: Description[];
+    /**
+     * ### 우측 하단에 뱃지 형태로 표시할 키워드 목록
+     *
+     * @description `undefined` 가 아닐 경우 descriptions 아래에 뱃지 목록이 추가된다.
+     */
+    skillKeywords?: string[];
   }
 
   /**
@@ -27,6 +39,13 @@ export declare namespace IRow {
   export interface Description {
     /** ### 설명 본문 */
     content: string;
+
+    /**
+     * ### content 중 굵게 표시할 부분 문자열
+     *
+     * @description `content` 안에 포함된 문자열이어야 하며, 해당 부분만 굵게(bold) 표시된다.
+     */
+    boldText?: string;
 
     /**
      * ### 폰트 두께 설정이 필요할 경우

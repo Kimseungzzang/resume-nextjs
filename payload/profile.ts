@@ -1,5 +1,5 @@
 import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
-import { faFacebook, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { IProfile } from '../component/profile/IProfile';
@@ -8,35 +8,29 @@ import image from '../asset/sample_tux.png';
 const profile: IProfile.Payload = {
   disable: false,
 
-  // image: 'https://resume.yowu.dev/static/image/profile_2019.png',
   image,
   name: {
-    title: 'Tux Linux Penguin',
-    small: '(Tux)',
+    title: '김승준',
+    small: '풀스택 개발자 · 2년차',
   },
   contact: [
     {
-      title: 'tux@linux.org',
-      link: 'mailto:tux@linux.org',
+      title: '99kimst@gmail.com',
+      link: 'mailto:99kimst@gmail.com',
       icon: faEnvelope,
     },
     {
-      title: 'Please contact me by email',
+      title: '010-4572-9858',
+      link: 'tel:010-4572-9858',
       icon: faPhone,
-      badge: true,
     },
     {
-      link: 'https://github.com/uyu423/resume-nextjs',
+      link: 'https://github.com/Kimseungzzang',
       icon: faGithub,
-    },
-    {
-      link: 'https://www.facebook.com/groups/ubuntu.ko',
-      icon: faFacebook,
     },
   ],
   notice: {
-    title:
-      "The content below is all fictitious and is just a sample from 'https://github.com/uyu423/resume-nextjs'.",
+    title: '현재 휴브알엔씨에서 풀스택 개발자로 재직 중입니다.',
     icon: faBell,
   },
 };

@@ -1,5 +1,5 @@
 import { PropsWithChildren } from 'react';
-import { Row, Col } from 'reactstrap';
+import { Badge, Row, Col } from 'reactstrap';
 import { IRow } from './IRow';
 import { Style } from './Style';
 import { CommonDescription } from './CommonDescription';
@@ -27,6 +27,13 @@ export function CommonRows({
         <Col sm={12} md={9}>
           {right.title ? <h4>{right.title}</h4> : ''}
           {right.subTitle ? <i style={Style.gray}>{right.subTitle}</i> : ''}
+          {right.summary ? (
+            <p className="mt-1 mb-0" style={Style.blue}>
+              {right.summary}
+            </p>
+          ) : (
+            ''
+          )}
           {right.descriptions ? (
             <CommonDescription
               descriptions={right.descriptions}
@@ -35,8 +42,29 @@ export function CommonRows({
           ) : (
             ''
           )}
+          {createSkillKeywords(right.skillKeywords)}
         </Col>
       </Row>
+    </div>
+  );
+}
+
+function createSkillKeywords(skillKeywords?: string[]) {
+  if (!skillKeywords) {
+    return null;
+  }
+  return (
+    <div className="pt-2">
+      {skillKeywords.map((keyword, index) => (
+        <Badge
+          style={Style.skillKeywordBadge}
+          key={index.toString()}
+          color="secondary"
+          className="mr-1"
+        >
+          {keyword}
+        </Badge>
+      ))}
     </div>
   );
 }

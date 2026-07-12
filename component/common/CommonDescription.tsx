@@ -61,7 +61,7 @@ function DescriptionRecursion({
 }
 
 function Description({ description }: PropsWithChildren<{ description: IRow.Description }>) {
-  const { content, href, postImage, postHref, weight } = description;
+  const { content, href, postImage, postHref, weight, boldText } = description;
 
   const component = (() => {
     if (href && postImage) {
@@ -103,12 +103,29 @@ function Description({ description }: PropsWithChildren<{ description: IRow.Desc
     return (
       <>
         <meta name="format-detection" content="telephone=no" />
-        <li style={getFontWeight(weight)}>{content}</li>
+        <li style={getFontWeight(weight)}>{renderContent(content, boldText)}</li>
       </>
     );
   })();
 
   return component;
+}
+
+function renderContent(content: string, boldText?: string) {
+  if (!boldText) {
+    return content;
+  }
+  const index = content.indexOf(boldText);
+  if (index === -1) {
+    return content;
+  }
+  return (
+    <>
+      {content.slice(0, index)}
+      <strong>{boldText}</strong>
+      {content.slice(index + boldText.length)}
+    </>
+  );
 }
 
 function getFontWeight(weight?: IRow.Description['weight']): CSSProperties {

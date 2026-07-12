@@ -38,7 +38,9 @@ function serialize(payload: IProject.Item): IRow.Payload {
     right: {
       title: payload.title,
       subTitle: payload.where,
+      summary: payload.summary,
       descriptions: payload.descriptions,
+      skillKeywords: payload.skillKeywords,
     },
   };
 }
