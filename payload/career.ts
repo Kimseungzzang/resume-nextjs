@@ -1,4 +1,13 @@
 import { ICareer } from '../component/career/ICareer';
+import snsb3DashboardLock from '../asset/career/snsb3-dashboard-lock.png';
+import snsb3EmailArchitecture from '../asset/career/snsb3-email-architecture.png';
+import snsb3AppPerformance from '../asset/career/snsb3-app-performance.png';
+import mcpServerArchitecture from '../asset/career/mcp-server-architecture.png';
+import bugPipelineArchitecture from '../asset/career/bug-pipeline-architecture.png';
+import laserSystemArchitecture from '../asset/career/laser-system-architecture.png';
+import otaUpdateFlow from '../asset/career/ota-update-flow.png';
+import otaFlashMemory from '../asset/career/ota-flash-memory.png';
+import laserSystemScreenshot from '../asset/career/laser-system-screenshot.png';
 
 const career: ICareer.Payload = {
   disable: false,
@@ -79,6 +88,11 @@ const career: ICareer.Payload = {
                 '트랜잭션 종료 시 자동 unlock 되므로 별도 관리 불필요',
               ],
             },
+            {
+              type: 'image',
+              src: snsb3DashboardLock,
+              alt: '정원 초과 문제: 락 적용 전 vs 후',
+            },
           ],
         },
         {
@@ -133,6 +147,11 @@ const career: ICareer.Payload = {
                 '별도 스레드에서 담당자 ID로 이메일 주소 조회 → 수검자 번호 조회 → HTML 메일 렌더링 → 발송',
               ],
             },
+            {
+              type: 'image',
+              src: snsb3EmailArchitecture,
+              alt: '이메일 발송 구조: 커밋 후 비동기 처리',
+            },
           ],
         },
         {
@@ -167,6 +186,11 @@ const career: ICareer.Payload = {
                 'Lazy 빌드 전환 — IndexedStack을 제거하고 현재 보고 있는 페이지만 조건문으로 렌더링하도록 변경했습니다. 검사 데이터는 앞서 캐시에 이미 적재되어 있으므로, 페이지를 처음 열 때도 추가 API 호출 없이 캐시된 데이터로 위젯만 새로 빌드하면 됩니다. 한 번 빌드된 페이지 위젯은 이후에도 그대로 유지(캐시)해, 같은 페이지를 다시 방문할 때는 위젯을 다시 빌드하지 않도록 했습니다. 그 결과 페이지 전환 시 지연 없이 진입 시점의 초기 부하만 크게 줄일 수 있었습니다.',
               ],
             },
+            {
+              type: 'image',
+              src: snsb3AppPerformance,
+              alt: '검사 화면 진입 성능: 개선 전 vs 후',
+            },
           ],
         },
         {
@@ -194,6 +218,11 @@ const career: ICareer.Payload = {
                 'Sentry 연동 툴: AI가 Sentry API를 통해 최근 에러 발생 현황과 상세 내역을 직접 조회',
                 'Spring Boot 기반으로 MCP 프로토콜을 구현해 Claude 등 AI 클라이언트와 연동',
               ],
+            },
+            {
+              type: 'image',
+              src: mcpServerArchitecture,
+              alt: '사내 MCP 서버 구성',
             },
             { type: 'heading', text: 'DB 조회 툴 — SQL 검증 3단계' },
             {
@@ -364,6 +393,11 @@ const career: ICareer.Payload = {
               text:
                 '개선 방향으로 세 가지를 검토했습니다. 첫째, 메시지가 여러 번 반환되면 처리 불가 메시지함(DLQ)으로 이동시켜 무한 반복을 차단합니다. 둘째, 꺼낸 메시지를 즉시 다시 넣지 않고 일정 시간 대기 후 넣어 Worker 간 충돌을 줄입니다. 셋째, 장기적으로는 Worker별로 메시지를 독립적으로 소비하는 구조로 전환해 경합 자체를 없애는 방향을 고려하고 있습니다. SNS는 Push 방식이라 Worker가 처리할 준비가 안 된 순간의 메시지가 유실될 수 있어 단독으로는 쓰기 어렵고, SNS Topic + Worker별 SQS 큐를 조합하거나, Topic과 Consumer Group으로 Worker별 독립 소비가 단독으로 가능한 Kafka로 전환하는 방식을 고려하고 있습니다. 현재 사내 인프라 규모에서는 현 구조가 요구사항을 충족하므로 단계적으로 개선하고 있습니다.',
             },
+            {
+              type: 'image',
+              src: bugPipelineArchitecture,
+              alt: '버그 리포트 자동 처리 파이프라인',
+            },
           ],
         },
       ],
@@ -393,6 +427,11 @@ const career: ICareer.Payload = {
               text:
                 '건물 내 설치된 레이저 피난 유도기의 센서 데이터를 실시간으로 수집하고, 원격으로 유도기를 제어하는 관제 시스템입니다. 셀트리온·디아지오 등 대형 사업장에 납품 및 운영 중이며, 수십 대의 디바이스를 단일 플랫폼에서 관리합니다.',
             },
+            {
+              type: 'image',
+              src: laserSystemArchitecture,
+              alt: '레이저 피난 유도기 관제 시스템 아키텍처',
+            },
             { type: 'heading', text: 'MQTT 전환 — 실시간 제어 성능 개선' },
             {
               type: 'paragraph',
@@ -405,6 +444,16 @@ const career: ICareer.Payload = {
                 '제어 명령 유실 방지를 위해 발행 메시지에 QoS 1을 적용했으며, 브로커 연결이 끊기면 3초 간격으로 재연결을 시도하고 성공 시 토픽을 재구독하는 방식으로 복구합니다. 디바이스 수가 적고 빠른 복구가 중요해서 단순 고정 재시도를 선택했습니다.',
             },
             { type: 'heading', text: 'OTA 펌웨어 배포 — 실시간 진행률 모니터링' },
+            {
+              type: 'image',
+              src: otaUpdateFlow,
+              alt: 'ESP32 OTA 업데이트 흐름',
+            },
+            {
+              type: 'image',
+              src: otaFlashMemory,
+              alt: '플래시 메모리 구조',
+            },
             {
               type: 'paragraph',
               text:
@@ -431,6 +480,11 @@ const career: ICareer.Payload = {
               type: 'paragraph',
               text:
                 '디바이스 제어는 관제 화면에서 방향·각도·경보 상태를 선택해 전송하면 MQTT로 해당 디바이스에 명령을 발행하고, ESP32가 이를 수신해 UART 시리얼로 STM32에 전달하는 구조로 구현했습니다.',
+            },
+            {
+              type: 'image',
+              src: laserSystemScreenshot,
+              alt: '레이저 피난유도기 관제시스템 실제 화면',
             },
             { type: 'heading', text: 'Docker 기반 멀티 환경 배포' },
             {

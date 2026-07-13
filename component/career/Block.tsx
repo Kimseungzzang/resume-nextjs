@@ -37,6 +37,15 @@ export default function CareerBlock({ block }: PropsWithChildren<{ block: ICaree
           </code>
         </pre>
       );
+    case 'image':
+      return (
+        <img
+          src={block.src}
+          alt={block.alt}
+          className="img-fluid rounded border mb-3"
+          style={{ maxWidth: '100%' }}
+        />
+      );
     default:
       return null;
   }

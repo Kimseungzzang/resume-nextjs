@@ -51,5 +51,6 @@ export declare namespace ICareer {
     | { type: 'heading'; text: string }
     | { type: 'paragraph'; text: string }
     | { type: 'list'; items: string[] }
-    | { type: 'code'; code: string };
+    | { type: 'code'; code: string }
+    | { type: 'image'; src: string; alt: string };
 }
