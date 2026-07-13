@@ -1,4 +1,4 @@
-import { faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faBlog, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 import { faBell } from '@fortawesome/free-regular-svg-icons';
@@ -27,6 +27,10 @@ const profile: IProfile.Payload = {
     {
       link: 'https://github.com/Kimseungzzang',
       icon: faGithub,
+    },
+    {
+      link: 'https://velog.io/@kimseungzzang/posts',
+      icon: faBlog,
     },
   ],
   notice: {
