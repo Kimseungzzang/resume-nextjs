@@ -35,6 +35,17 @@ export declare namespace IProfile {
        */
       icon?: IconDefinition;
     };
+    /**
+     * ### 다른 페이지로 이동하는 버튼
+     *
+     * @description undefined 가 아닐 경우 공지 아래에 버튼 형태로 표시된다.
+     */
+    detailButton?: {
+      /** ### 버튼 텍스트 */
+      title: string;
+      /** ### 이동할 경로 (내부 경로는 Next.js 라우팅을 사용) */
+      href: string;
+    };
   }
 
   /**

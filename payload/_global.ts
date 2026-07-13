@@ -3,7 +3,7 @@ import previewImage from '../asset/preview.jpg';
 import { IGlobal } from '../component/common/IGlobal';
 
 const title = '김승준 이력서';
-const description = '풀스택 개발자 김승준의 이력서입니다.';
+const description = '개발자 김승준의 이력서입니다.';
 
 export const _global: IGlobal.Payload = {
   favicon,

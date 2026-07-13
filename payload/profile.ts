@@ -11,7 +11,7 @@ const profile: IProfile.Payload = {
   image,
   name: {
     title: '김승준',
-    small: '풀스택 개발자 · 2년차',
+    small: '백엔드 개발자 · 2년차',
   },
   contact: [
     {
@@ -34,8 +34,12 @@ const profile: IProfile.Payload = {
     },
   ],
   notice: {
-    title: '현재 휴브알엔씨에서 풀스택 개발자로 재직 중입니다.',
+    title: '현재 휴브알엔씨에서 개발자로 재직 중입니다.',
     icon: faBell,
+  },
+  detailButton: {
+    title: '경력기술서 보기',
+    href: '/career',
   },
 };
 

@@ -4,24 +4,28 @@ const { homepage } = require('./package.json');
 
 const { NODE_ENV } = process.env;
 
-module.exports = withImages({
-  assetPrefix: (() => {
-    if (NODE_ENV === 'production' && homepage) {
-      try {
-        console.log('> Detected homepage url in package.json');
-        const { pathname } = new URL(homepage);
-        if (pathname !== '/') {
-          console.log(`> Apply \'${pathname}\' to assetPrefix(subPath)`);
-          return pathname;
-        }
-        return '';
-      } catch {
-        console.log('> Can not parse homepage URL not apply assetPrefix(subPath)');
-        return '';
+const subPath = (() => {
+  if (NODE_ENV === 'production' && homepage) {
+    try {
+      console.log('> Detected homepage url in package.json');
+      const { pathname } = new URL(homepage);
+      if (pathname !== '/') {
+        const trimmed = pathname.replace(/\/$/, '');
+        console.log(`> Apply \'${trimmed}\' to assetPrefix/basePath(subPath)`);
+        return trimmed;
       }
+      return '';
+    } catch {
+      console.log('> Can not parse homepage URL not apply assetPrefix/basePath(subPath)');
+      return '';
     }
-    return '';
-  })(),
+  }
+  return '';
+})();
+
+module.exports = withImages({
+  basePath: subPath,
+  assetPrefix: subPath,
 });
 // withCSS({
 // webpack: config => {

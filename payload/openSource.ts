@@ -32,6 +32,10 @@ const openSource: IOpenSource.Payload = {
           content: 'github.com/Kimseungzzang/zzang-claude-skills',
           href: 'https://github.com/Kimseungzzang/zzang-claude-skills',
         },
+        {
+          content: '자세히 보기',
+          href: 'https://velog.io/@kimseungzzang/%EB%82%98%EB%A7%8C%EC%9D%98-AI-%EC%9B%8C%ED%81%AC-%ED%94%8C%EB%A1%9C%EC%9A%B0-%EB%A7%8C%EB%93%9C%EB%8A%94-%EB%B0%A9%EB%B2%95',
+        },
       ],
     },
     {
@@ -55,11 +59,18 @@ const openSource: IOpenSource.Payload = {
               content:
                 '자체 구현은 목표 1,000 req/s부터 처리량·지연 급격 저하, real Redis는 9,583 req/s(p95 284ms)까지 처리',
             },
+            {
+              content: 'Redis client의 TCP 소켓 연결 방식과 Sorted Set 정렬 방식 차이 발견',
+            },
           ],
         },
         {
           content: 'github.com/Kimseungzzang/ticketing',
           href: 'https://github.com/Kimseungzzang/ticketing',
+        },
+        {
+          content: '자세히 보기',
+          href: 'https://velog.io/@kimseungzzang/Temp-Title-tkcylmzb',
         },
       ],
     },

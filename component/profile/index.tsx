@@ -1,6 +1,7 @@
-import { Row, Col, Alert } from 'reactstrap';
+import { Row, Col, Alert, Button } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { PropsWithChildren } from 'react';
+import Link from 'next/link';
 import ProfileContact from './contact';
 import ProfileImage from './image';
 import { EmptyRowCol } from '../common';
@@ -20,7 +21,7 @@ export const Profile = {
 };
 
 function Component({ payload }: PropsWithChildren<{ payload: Payload }>) {
-  const { image, contact, name, notice } = payload;
+  const { image, contact, name, notice, detailButton } = payload;
   return (
     <div className="mt-5">
       <Row>
@@ -31,6 +32,7 @@ function Component({ payload }: PropsWithChildren<{ payload: Payload }>) {
           {createNameArea(name)}
           {createProfileContactMap(contact)}
           {createNoticeArea(notice)}
+          {createDetailButtonArea(detailButton)}
         </Col>
       </Row>
     </div>
@@ -68,6 +70,21 @@ function createNoticeArea(notice: Payload['notice']) {
         {notice.icon ? <FontAwesomeIcon className="mr-2" icon={notice.icon} /> : ''}
         {notice.title}
       </Alert>
+    </EmptyRowCol>
+  );
+}
+
+function createDetailButtonArea(detailButton: Payload['detailButton']) {
+  if (!detailButton) {
+    return '';
+  }
+  return (
+    <EmptyRowCol>
+      <Link href={detailButton.href} passHref>
+        <Button tag="a" color="primary" outline>
+          {detailButton.title}
+        </Button>
+      </Link>
     </EmptyRowCol>
   );
 }

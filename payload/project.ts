@@ -14,6 +14,12 @@ const project: IProject.Payload = {
           content:
             'PostgreSQL Advisory Lock을 활용해 동시 등록 시 발생하는 정원 초과(Race Condition) 문제 해결',
           boldText: '정원 초과(Race Condition) 문제 해결',
+          descriptions: [
+            {
+              content: '자세히 보기',
+              href: 'https://velog.io/@kimseungzzang/PostgreSQL-Advisory-Lock%EC%9D%B4-%EB%AD%94%EB%8D%B0',
+            },
+          ],
         },
         {
           content:
