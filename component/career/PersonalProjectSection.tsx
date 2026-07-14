@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import { ICareer } from './ICareer';
 import { Style } from '../common/Style';
-import { HrefTargetBlank } from '../common';
+import { CommonDescription } from '../common/CommonDescription';
 
 export default function PersonalProjectSection({
   list,
@@ -12,8 +12,7 @@ export default function PersonalProjectSection({
       {list.map((item, index) => (
         <div className={index > 0 ? 'mt-4' : 'mt-3'} key={index.toString()}>
           <h4>{item.title}</h4>
-          <p className="mb-1">{item.description}</p>
-          {item.href ? <HrefTargetBlank url={item.href} /> : ''}
+          <CommonDescription descriptions={item.descriptions} />
         </div>
       ))}
     </div>

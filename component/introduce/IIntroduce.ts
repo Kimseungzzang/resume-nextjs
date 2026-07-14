@@ -12,9 +12,9 @@ export declare namespace IIntroduce {
     /**
      * ### 자기소개 내용
      *
-     * @description `string` 배열이다. 요소 하나가 하나의 `<p>` 태그가 된다.
+     * @description 요소 하나가 하나의 `<p>` 태그가 된다.
      */
-    contents: string[];
+    contents: Content[];
 
     /**
      * ### 하단 싸인
@@ -30,5 +30,17 @@ export declare namespace IIntroduce {
      * @default `package.json` 의 latestUpdatedAt 을 가져온다.
      */
     latestUpdated: string;
+  }
+
+  export interface Content {
+    /** ### 문단 본문 */
+    content: string;
+
+    /**
+     * ### content 중 굵게 표시할 부분 문자열
+     *
+     * @description `content` 안에 포함된 문자열이어야 하며, 해당 부분만 굵게(bold) 표시된다.
+     */
+    boldText?: string;
   }
 }

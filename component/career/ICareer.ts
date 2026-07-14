@@ -1,4 +1,5 @@
 import { ICommon } from '../common/ICommon';
+import { IRow } from '../common/IRow';
 
 export declare namespace ICareer {
   export interface Payload extends ICommon.Payload {
@@ -43,8 +44,7 @@ export declare namespace ICareer {
 
   export interface PersonalProject {
     title: string;
-    href?: string;
-    description: string;
+    descriptions: IRow.Description[];
   }
 
   export type Block =

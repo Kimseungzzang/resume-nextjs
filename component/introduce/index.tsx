@@ -34,7 +34,7 @@ function Component({ payload }: PropsWithChildren<{ payload: Payload }>) {
         </Col>
         <Col sm={12} md={9}>
           {payload.contents.map((content, index) => (
-            <p key={index.toString()}>{content}</p>
+            <p key={index.toString()}>{renderContent(content.content, content.boldText)}</p>
           ))}
           <p className="text-right">
             <small>Latest Updated</small>{' '}
@@ -50,5 +50,22 @@ function Component({ payload }: PropsWithChildren<{ payload: Payload }>) {
         </Col>
       </Row>
     </div>
+  );
+}
+
+function renderContent(content: string, boldText?: string) {
+  if (!boldText) {
+    return content;
+  }
+  const index = content.indexOf(boldText);
+  if (index === -1) {
+    return content;
+  }
+  return (
+    <>
+      {content.slice(0, index)}
+      <strong>{boldText}</strong>
+      {content.slice(index + boldText.length)}
+    </>
   );
 }
