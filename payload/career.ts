@@ -5,7 +5,6 @@ import snsb3AppPerformance from '../asset/career/snsb3-app-performance.png';
 import mcpServerArchitecture from '../asset/career/mcp-server-architecture.png';
 import bugPipelineArchitecture from '../asset/career/bug-pipeline-architecture.png';
 import laserSystemArchitecture from '../asset/career/laser-system-architecture.png';
-import laserSystemScreenshot from '../asset/career/laser-system-screenshot.png';
 
 const career: ICareer.Payload = {
   disable: false,
@@ -334,11 +333,6 @@ const career: ICareer.Payload = {
               type: 'paragraph',
               text:
                 '디바이스 제어는 관제 화면에서 방향·각도·경보 상태를 선택해 전송하면 MQTT로 해당 디바이스에 명령을 발행하고, ESP32가 이를 수신해 UART 시리얼로 STM32에 전달하는 구조로 구현했습니다.',
-            },
-            {
-              type: 'image',
-              src: laserSystemScreenshot,
-              alt: '레이저 피난유도기 관제시스템 실제 화면',
             },
             { type: 'heading', text: 'Docker 기반 멀티 환경 배포' },
             {
