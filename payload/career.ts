@@ -224,40 +224,12 @@ const career: ICareer.Payload = {
             },
             {
               type: 'list',
+              ordered: true,
               items: [
-                'SELECT 강제(validateQuery) — 쿼리가 SELECT로 시작하지 않으면 즉시 차단합니다.',
+                'SELECT 강제(validateQuery) — 쿼리가 SELECT로 시작하지 않으면 즉시 차단',
+                '키워드 블랙리스트(BLOCKED_KEYWORDS) — SELECT로 시작해도 INSERT·UPDATE·DELETE·DROP 등이 포함되어 있으면 차단. SELECT 1; DROP TABLE users처럼 세미콜론으로 명령을 이어붙이는 인젝션을 막기 위함',
+                '민감 컬럼 마스킹(SENSITIVE_COLUMNS) — 검증을 통과해 조회가 성공해도, password·token 등 민감 컬럼 값은 "***"로 치환해 반환',
               ],
-            },
-            {
-              type: 'code',
-              code: `if (!upper.startsWith("SELECT")) {
-    throw IllegalArgumentException("SELECT 쿼리만 허용됩니다")
-}`,
-            },
-            {
-              type: 'list',
-              items: [
-                '키워드 블랙리스트(BLOCKED_KEYWORDS) — SELECT로 시작해도 쿼리 문자열에 아래 키워드가 포함되어 있으면 차단합니다. SELECT 1; DROP TABLE users처럼 세미콜론으로 명령을 이어붙이는 인젝션을 막기 위함입니다.',
-              ],
-            },
-            {
-              type: 'code',
-              code: `private val BLOCKED_KEYWORDS = setOf(
-    "INSERT", "UPDATE", "DELETE", "DROP", "TRUNCATE", "ALTER", "CREATE", "GRANT", "REVOKE"
-)`,
-            },
-            {
-              type: 'list',
-              items: [
-                '민감 컬럼 마스킹(SENSITIVE_COLUMNS) — 검증을 통과해 조회가 성공해도, 응답에 포함된 민감 컬럼 값은 "***"로 치환해 반환합니다.',
-              ],
-            },
-            {
-              type: 'code',
-              code: `private val SENSITIVE_COLUMNS = setOf(
-    "password", "passwd", "secret", "token",
-    "access_token", "refresh_token", "api_key"
-)`,
             },
             {
               type: 'paragraph',
@@ -274,73 +246,6 @@ const career: ICareer.Payload = {
               type: 'paragraph',
               text:
                 '이를 해결하기 위해 MCP 서버가 사용하는 DB 계정 자체의 권한을 SELECT 단일 권한으로 제한했습니다. 툴 코드를 우회해 어떤 경로로 접속하더라도 DB 계정 권한상 INSERT·UPDATE·DELETE 등의 실행이 원천적으로 불가능해지므로, 애플리케이션 로직에 의존하지 않는 방어선을 확보할 수 있었습니다.',
-            },
-            { type: 'heading', text: 'Claude ↔ MCP 서버 통신 구조' },
-            {
-              type: 'paragraph',
-              text:
-                'Claude와 MCP 서버는 HTTP로 통신합니다. Claude가 도구 호출이 필요하다고 판단하면 MCP 서버에 "어떤 도구를, 어떤 입력값으로 실행해달라"는 내용을 담은 요청을 보내고, MCP 서버는 도구를 실행한 뒤 그 결과를 JSON으로 응답합니다. 예를 들어 개발자가 "최근에 등록된 수검자 5명의 상태를 보여줘"라고 물으면, Claude는 아래와 같은 요청을 MCP 서버로 보냅니다.',
-            },
-            {
-              type: 'code',
-              code: `POST /mcp  (도구 호출 요청)
-
-{
-  "tool": "db_query",
-  "input": { "query": "최근 등록된 수검자 5명 조회" }
-}`,
-            },
-            {
-              type: 'paragraph',
-              text:
-                'MCP 서버는 실제 DB에서 SELECT 쿼리를 실행한 뒤, 결과를 아래와 같은 JSON으로 응답합니다.',
-            },
-            {
-              type: 'code',
-              code: `{
-  "tool": "db_query",
-  "status": "success",
-  "rowCount": 5,
-  "rows": [
-    { "id": 1031, "name": "홍길동", "status": "등록완료", "createdAt": "2026-06-12" },
-    { "id": 1030, "name": "김민수", "status": "검사중", "createdAt": "2026-06-12" }
-  ]
-}`,
-            },
-            {
-              type: 'paragraph',
-              text:
-                'Claude는 이 결과를 그대로 보여주지 않고, 사람이 읽기 쉬운 형태로 정리해 답변합니다.',
-            },
-            {
-              type: 'code',
-              code: `최근 등록된 수검자 5명 중 일부입니다.
-
-- 홍길동 (ID 1031) — 등록완료, 2026-06-12
-- 김민수 (ID 1030) — 검사중, 2026-06-12
-
-나머지 3건도 필요하면 보여드릴게요.`,
-            },
-            { type: 'heading', text: '연속 도구 호출(멀티스텝)' },
-            {
-              type: 'paragraph',
-              text:
-                '한 번의 도구 호출 결과만으로 답변할 수 없는 경우도 있습니다. 예를 들어 "수검자 1031번의 최근 검사 점수를 알려줘"라는 질문은, 먼저 수검자 ID로 검사 ID를 조회한 뒤, 그 검사 ID로 점수를 다시 조회해야 합니다. 이런 경우 Claude는 첫 번째 도구 호출 결과를 받은 뒤, 그 결과를 바탕으로 두 번째 도구 호출 요청을 MCP 서버에 다시 보냅니다.',
-            },
-            {
-              type: 'code',
-              code: `1차 요청: db_query("examinee_id=1031의 examId 조회")
-1차 응답: { "rows": [ { "examId": 5021 } ] }
-
-2차 요청: db_query("examId=5021의 점수 조회")
-2차 응답: { "rows": [ { "score": 87, "completedAt": "2026-06-10" } ] }
-
-최종 답변: 수검자 1031번은 2026-06-10에 검사를 완료했고 점수는 87점입니다.`,
-            },
-            {
-              type: 'paragraph',
-              text:
-                '이렇게 도구 호출 → 결과 확인 → 추가 도구 호출 여부 판단을 필요한 만큼 반복하는 방식으로, 복잡한 질문도 여러 번의 HTTP 요청/응답을 거쳐 하나의 답변으로 정리됩니다.',
             },
             { type: 'heading', text: '도입 효과 및 관점' },
             {
