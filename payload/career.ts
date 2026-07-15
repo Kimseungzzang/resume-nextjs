@@ -185,7 +185,7 @@ const career: ICareer.Payload = {
         },
         {
           title: '사내 인프라 — 개발 인프라 MCP 서버 도입',
-          skillKeywords: ['Spring Boot', 'MCP Protocol', 'Sentry API'],
+          skillKeywords: ['Spring Boot', 'MCP Protocol', 'Sentry API', 'CloudWatch'],
           role: '1인 단독 설계·구현',
           blocks: [
             { type: 'heading', text: '문제 상황' },
@@ -206,6 +206,8 @@ const career: ICareer.Payload = {
                 'Swagger 연동 툴: AI가 사내 API 명세를 직접 조회해 엔드포인트·파라미터·응답 구조를 파악',
                 'DB 조회 툴: AI가 자연어로 데이터 조회 요청을 받아 실제 DB에서 결과를 확인. 코드 레벨에서 SELECT 쿼리만 허용하고 INSERT·UPDATE·DELETE 등 데이터 변경 쿼리는 차단해 AI가 데이터를 임의로 수정할 수 없도록 처리',
                 'Sentry 연동 툴: AI가 Sentry API를 통해 최근 에러 발생 현황과 상세 내역을 직접 조회',
+                'CloudWatch 연동 툴: AI가 CloudWatch 로그·메트릭을 직접 조회해 인프라 상태를 확인',
+                '사내 QA 대시보드 연동 툴: AI가 사내 자동화 E2E QA 서버의 테스트 결과를 직접 조회',
                 'Spring Boot 기반으로 MCP 프로토콜을 구현해 Claude 등 AI 클라이언트와 연동',
               ],
             },
