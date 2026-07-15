@@ -192,14 +192,9 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                '개발 중 API 스펙 확인이 필요할 때마다 Swagger UI를 별도로 열고, 데이터 확인을 위해 DBeaver를 켜고, 에러 발생 시 Sentry 대시보드를 확인하는 등 컨텍스트 전환 비용이 반복적으로 발생했습니다. 2인뿐인 적은 인원으로 개발하다 보니 이런 단순 확인 작업에 쓰는 시간이 적지 않았습니다.',
+                'API 문서·DB·Sentry·CloudWatch·QA 대시보드 등 개발 중 반복적으로 확인해야 하는 사내 인프라를 AI가 직접 조회할 수 있도록 연결하는 사내 MCP(Model Context Protocol) 서버입니다. Spring Boot 기반으로 구현했으며, Claude 등 AI 클라이언트가 자연어 요청만으로 API 명세 확인, DB 조회, 에러·인프라 모니터링, QA 테스트 결과 확인까지 수행할 수 있도록 지원합니다.',
             },
             { type: 'heading', text: '구현 내용' },
-            {
-              type: 'paragraph',
-              text:
-                '이런 반복 업무를 AI가 직접 수행할 수 있도록, 사내 인프라와 AI를 직접 연결하는 MCP 서버를 Spring Boot 기반으로 구현했습니다.',
-            },
             {
               type: 'list',
               items: [
