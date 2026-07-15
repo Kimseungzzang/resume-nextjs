@@ -11,7 +11,7 @@ export const Footer = {
 
 function Component({ payload }: PropsWithChildren<{ payload: IFooter.Payload }>) {
   return (
-    <Row>
+    <Row className="no-print">
       <Col style={Style.footerCover}>
         <div style={Style.footer} className="text-center mt-4">
           <EmptyRowCol>

@@ -33,7 +33,7 @@ const openSource: IOpenSource.Payload = {
           href: 'https://github.com/Kimseungzzang/zzang-claude-skills',
         },
         {
-          content: '자세히 보기',
+          content: '블로그 글 보기',
           href:
             'https://velog.io/@kimseungzzang/%EB%82%98%EB%A7%8C%EC%9D%98-AI-%EC%9B%8C%ED%81%AC-%ED%94%8C%EB%A1%9C%EC%9A%B0-%EB%A7%8C%EB%93%9C%EB%8A%94-%EB%B0%A9%EB%B2%95',
         },
@@ -69,7 +69,7 @@ const openSource: IOpenSource.Payload = {
           href: 'https://github.com/Kimseungzzang/ticketing',
         },
         {
-          content: '자세히 보기',
+          content: '블로그 글 보기',
           href: 'https://velog.io/@kimseungzzang/Temp-Title-tkcylmzb',
         },
       ],

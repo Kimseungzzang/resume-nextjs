@@ -16,7 +16,7 @@ const project: IProject.Payload = {
           boldText: '정원 초과(Race Condition) 문제 해결',
           descriptions: [
             {
-              content: '자세히 보기',
+              content: '블로그 글 보기',
               href:
                 'https://velog.io/@kimseungzzang/PostgreSQL-Advisory-Lock%EC%9D%B4-%EB%AD%94%EB%8D%B0',
             },
@@ -64,7 +64,7 @@ const project: IProject.Payload = {
             'Swagger(OpenAPI) 기반 API 명세 조회, DB SELECT 조회, CloudWatch·Sentry 모니터링, 사내 자동화 E2E QA 서버, Notion 연동을 지원하는 MCP 서버 개발',
           descriptions: [
             {
-              content: '자세히 보기',
+              content: '블로그 글 보기',
               href:
                 'https://velog.io/@kimseungzzang/%EB%82%B4%EA%B0%80-%EC%82%AC%EB%82%B4-MCP-%EC%84%9C%EB%B2%84%EB%A5%BC-%EB%8F%84%EC%9E%85%ED%95%98%EA%B2%8C-%EB%90%9C-%EC%9D%B4%EC%9C%A0',
             },
