@@ -1,6 +1,18 @@
-import { PropsWithChildren } from 'react';
+import { Fragment, PropsWithChildren } from 'react';
 import { ICareer } from './ICareer';
 import { Style } from '../common/Style';
+
+/** "**bold**" 구간을 <strong>으로 렌더링 */
+function renderWithBold(text: string) {
+  const tokens = text.split(/(\*\*[^*]+\*\*)/g).filter(Boolean);
+  return tokens.map((token, index) => {
+    const match = token.match(/^\*\*([^*]+)\*\*$/);
+    // eslint-disable-next-line react/no-array-index-key
+    return (
+      <Fragment key={index.toString()}>{match ? <strong>{match[1]}</strong> : token}</Fragment>
+    );
+  });
+}
 
 export default function CareerBlock({ block }: PropsWithChildren<{ block: ICareer.Block }>) {
   switch (block.type) {
@@ -11,13 +23,13 @@ export default function CareerBlock({ block }: PropsWithChildren<{ block: ICaree
         </h5>
       );
     case 'paragraph':
-      return <p className="mb-2">{block.text}</p>;
+      return <p className="mb-2">{renderWithBold(block.text)}</p>;
     case 'list': {
       const ListTag = block.ordered ? 'ol' : 'ul';
       return (
         <ListTag>
           {block.items.map((item, index) => (
-            <li key={index.toString()}>{item}</li>
+            <li key={index.toString()}>{renderWithBold(item)}</li>
           ))}
         </ListTag>
       );
