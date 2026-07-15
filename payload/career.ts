@@ -58,21 +58,9 @@ const career: ICareer.Payload = {
             { type: 'heading', text: '구현 방식' },
             {
               type: 'list',
+              ordered: true,
               items: [
                 '검사 그룹을 구성하는 성별·연령대·학력 속성을 문자열로 이어붙인 뒤 SHA-256으로 해싱해 정수 락 키로 변환 (그룹을 대표하는 별도 PK 컬럼이 없어, 속성 조합 자체를 키로 사용)',
-              ],
-            },
-            {
-              type: 'code',
-              code: `fun lockKeyOf(gender: Gender, ageGroup: String, educationLevel: String): Long {
-    val key = listOf(gender.name, ageGroup, educationLevel).joinToString("|")
-    val digest = MessageDigest.getInstance("SHA-256").digest(key.toByteArray())
-    return ByteBuffer.wrap(digest.copyOfRange(0, Long.SIZE_BYTES)).long
-}`,
-            },
-            {
-              type: 'list',
-              items: [
                 '계산된 락 키로 pg_advisory_xact_lock(lockKey) 획득',
                 '락 획득 후 현재 등록 인원 조회 → 제한 인원 비교 → 등록 수행',
                 '트랜잭션 종료 시 자동 unlock 되므로 별도 관리 불필요',
