@@ -5,8 +5,6 @@ import snsb3AppPerformance from '../asset/career/snsb3-app-performance.png';
 import mcpServerArchitecture from '../asset/career/mcp-server-architecture.png';
 import bugPipelineArchitecture from '../asset/career/bug-pipeline-architecture.png';
 import laserSystemArchitecture from '../asset/career/laser-system-architecture.png';
-import otaUpdateFlow from '../asset/career/ota-update-flow.png';
-import otaFlashMemory from '../asset/career/ota-flash-memory.png';
 import laserSystemScreenshot from '../asset/career/laser-system-screenshot.png';
 
 const career: ICareer.Payload = {
@@ -324,32 +322,6 @@ const career: ICareer.Payload = {
               type: 'paragraph',
               text:
                 '제어 명령 유실 방지를 위해 발행 메시지에 QoS 1을 적용했으며, 브로커 연결이 끊기면 3초 간격으로 재연결을 시도하고 성공 시 토픽을 재구독하는 방식으로 복구합니다. 디바이스 수가 적고 빠른 복구가 중요해서 단순 고정 재시도를 선택했습니다.',
-            },
-            { type: 'heading', text: 'OTA 펌웨어 배포 — 실시간 진행률 모니터링' },
-            {
-              type: 'image',
-              src: otaUpdateFlow,
-              alt: 'ESP32 OTA 업데이트 흐름',
-            },
-            {
-              type: 'image',
-              src: otaFlashMemory,
-              alt: '플래시 메모리 구조',
-            },
-            {
-              type: 'paragraph',
-              text:
-                '펌웨어 업데이트 시 수십 대 디바이스의 진행 상태를 실시간으로 파악할 수 없었습니다.',
-            },
-            {
-              type: 'paragraph',
-              text:
-                'ESP32는 RAM이 작아 파일 전체를 메모리에 올릴 수 없기 때문에, 128바이트씩 스트리밍으로 읽어 받는 즉시 플래시에 쓰는 방식을 사용했습니다.',
-            },
-            {
-              type: 'paragraph',
-              text:
-                '파일을 다 쓴 뒤에는 Update.end()로 체크섬을 검증하고 새 펌웨어가 담긴 파티션을 다음 부팅 대상으로 지정한 뒤 재부팅합니다. 현재 실행 중이 아닌 파티션에 새 펌웨어를 기록하는 방식이라, 업데이트 중 전원이 끊겨도 기존 파티션은 그대로 보존되어 안전합니다.',
             },
             { type: 'heading', text: '디바이스 연결 상태 관리' },
             {
