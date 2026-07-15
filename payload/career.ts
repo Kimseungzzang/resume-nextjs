@@ -355,7 +355,7 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                'Logstash Encoder를 적용해 모든 애플리케이션 로그를 JSON 형식으로 정규화하고, 요청·MQTT·DB 등 이벤트별 공통 포맷을 정의했습니다. DB·MQTT·요청 지연은 임계값 기반으로 자동 감지해 WARN 레벨로 출력하고, 정규화된 로그는 Promtail로 수집해 Loki에 적재한 뒤 Grafana 대시보드로 시각화해 슬로우 쿼리·인증 오류·디바이스 연결 이상을 모니터링했습니다.',
+                '모든 애플리케이션 로그를 JSON 형식으로 정규화하고, 요청·MQTT·DB 등 이벤트별 공통 포맷을 정의했습니다. DB·MQTT·요청 지연은 임계값 기반으로 자동 감지해 WARN 레벨로 출력하고, 정규화된 로그는 Promtail로 수집해 Loki에 적재한 뒤 Grafana 대시보드로 시각화해 슬로우 쿼리·인증 오류·디바이스 연결 이상을 모니터링했습니다.',
             },
           ],
         },
