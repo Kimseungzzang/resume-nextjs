@@ -277,8 +277,7 @@ const career: ICareer.Payload = {
             },
             {
               type: 'paragraph',
-              text:
-                'SNS는 Push 방식이라 Worker가 처리할 준비가 안 된 순간의 메시지가 유실될 수 있어 단독으로는 쓰기 어렵습니다. 장기적으로는 다음 두 가지 전환을 고려하고 있습니다.',
+              text: '장기적으로는 다음 두 가지 전환을 고려하고 있습니다.',
             },
             {
               type: 'list',
