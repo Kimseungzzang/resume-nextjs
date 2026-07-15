@@ -33,6 +33,15 @@ export default class ResumeDocument extends Document {
               body {
                 padding: 1.6cm;
               }
+              /*
+                Chrome 은 인쇄 시 기본적으로 색을 절약 모드로 바꿀 수 있다(print-color-adjust: economy).
+                파란 제목 색 등이 검정으로 바뀌는 것을 막기 위해 명시적으로 exact 를 강제한다.
+              */
+              * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+              }
               .no-print {
                 display: none !important;
               }
@@ -64,6 +73,17 @@ export default class ResumeDocument extends Document {
                 text-align: left !important;
               }
               .text-md-right {
+                text-align: right !important;
+              }
+              /*
+                .text-center 도 !important 를 쓰기 때문에 단일 클래스 선택자로는
+                로드 순서에 따라 밀릴 수 있다. 실제 함께 쓰이는 조합 클래스를 그대로
+                선택자로 써서 우선순위를 올려 확실히 이기게 한다.
+              */
+              .text-center.text-md-left {
+                text-align: left !important;
+              }
+              .text-center.text-md-right {
                 text-align: right !important;
               }
             }
