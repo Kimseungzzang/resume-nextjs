@@ -192,7 +192,7 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                'API 문서·DB·Sentry·CloudWatch·QA 대시보드 등 개발 중 반복적으로 확인해야 하는 사내 인프라를 AI가 직접 조회할 수 있도록 연결하는 사내 MCP(Model Context Protocol) 서버입니다. Spring Boot 기반으로 구현했으며, Claude 등 AI 클라이언트가 자연어 요청만으로 API 명세 확인, DB 조회, 에러·인프라 모니터링, QA 테스트 결과 확인까지 수행할 수 있도록 지원합니다.',
+                'API 문서·DB·Sentry·CloudWatch·QA 대시보드 등 개발 중 반복적으로 확인해야 하는 사내 인프라를 AI가 직접 조회할 수 있도록 연결하는 사내 MCP 서버입니다. Spring Boot 기반으로 구현했으며, Claude 등 AI 클라이언트가 자연어 요청만으로 API 명세 확인, DB 조회, 에러·인프라 모니터링, QA 테스트 결과 확인까지 수행할 수 있도록 지원합니다.',
             },
             { type: 'heading', text: '구현 내용' },
             {
