@@ -343,13 +343,13 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                'React, Spring Boot, Nginx, MariaDB, MongoDB, Redis, MQTT Broker로 구성된 전체 스택을 Docker Compose로 묶어, 온프레미스(Rocky Linux 8)와 클라우드(Ubuntu 24.04 LTS, AWS EC2) 양쪽에 동일한 구성으로 배포할 수 있도록 했습니다. 환경별로 달라지는 부분은 도메인·SSL 설정과 외부 네트워크 접근 여부 정도였고, 나머지 애플리케이션 구성은 그대로 재사용해 신규 사업장 배포 시 환경 차이에 따른 추가 작업을 최소화했습니다.',
+                'React, Spring Boot, Nginx, MariaDB, MongoDB, Redis, MQTT Broker로 구성된 전체 스택을 Docker Compose로 묶어, 온프레미스와 클라우드 양쪽에 동일한 구성으로 배포할 수 있도록 했습니다. 환경별로 달라지는 부분은 도메인·SSL 설정과 외부 네트워크 접근 여부 정도였고, 나머지 애플리케이션 구성은 그대로 재사용해 신규 사업장 배포 시 환경 차이에 따른 추가 작업을 최소화했습니다.',
             },
             { type: 'heading', text: '센서 데이터 보존 정책 — 정기 삭제 배치' },
             {
               type: 'paragraph',
               text:
-                'MongoDB에 1초 주기로 누적되는 센서 데이터가 장기 운영 시 스토리지 부담을 일으키는 문제가 있었습니다. @Scheduled(cron)으로 매일 새벽 3시에 실행되는 배치를 구현해, 6개월이 지난 센서 데이터를 일괄 삭제하도록 했습니다. 삭제 건수와 소요 시간은 운영 로그로 기록해 이상 여부를 확인할 수 있도록 했습니다.',
+                'MongoDB에 1초 주기로 누적되는 센서 데이터가 장기 운영 시 스토리지 부담을 일으키는 문제가 있었습니다. 스케줄러로 매일 새벽 3시에 실행되는 배치를 구현해, 6개월이 지난 센서 데이터를 일괄 삭제하도록 했습니다. 삭제 건수와 소요 시간은 운영 로그로 기록해 이상 여부를 확인할 수 있도록 했습니다.',
             },
             { type: 'heading', text: '로그 모니터링 — 로그 정규화 및 Promtail 기반 수집' },
             {
