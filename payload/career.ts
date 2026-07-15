@@ -290,7 +290,19 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                'SNS는 Push 방식이라 Worker가 처리할 준비가 안 된 순간의 메시지가 유실될 수 있어 단독으로는 쓰기 어렵고, SNS Topic + Worker별 SQS 큐를 조합하거나, Topic과 Consumer Group으로 Worker별 독립 소비가 단독으로 가능한 Kafka로 전환하는 방식을 고려하고 있습니다. 현재 사내 인프라 규모에서는 현 구조가 요구사항을 충족하므로 단계적으로 개선하고 있습니다.',
+                'SNS는 Push 방식이라 Worker가 처리할 준비가 안 된 순간의 메시지가 유실될 수 있어 단독으로는 쓰기 어렵습니다. 장기적으로는 다음 두 가지 전환을 고려하고 있습니다.',
+            },
+            {
+              type: 'list',
+              items: [
+                'SNS Topic + Worker별 SQS 큐 조합',
+                'Topic과 Consumer Group으로 Worker별 독립 소비가 가능한 Kafka로 전환',
+              ],
+            },
+            {
+              type: 'paragraph',
+              text:
+                '현재 사내 인프라 규모에서는 현 구조가 요구사항을 충족하므로 단계적으로 개선하고 있습니다.',
             },
             {
               type: 'image',
