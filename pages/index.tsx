@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Container } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 
 import Head from 'next/head';
 import { NextSeo } from 'next-seo';
@@ -16,6 +16,7 @@ import { Skill } from '../component/skill';
 import { Style } from '../component/common/Style';
 import Payload from '../payload';
 import { Article } from '../component/article';
+import PrintButton from '../component/common/PrintButton';
 
 function Yosume() {
   return (
@@ -26,6 +27,11 @@ function Yosume() {
         <link rel="shortcut icon" href={Payload._global.favicon} />
       </Head>
       <Container style={Style.global}>
+        <Row className="pt-3">
+          <Col className="text-right">
+            <PrintButton />
+          </Col>
+        </Row>
         <Profile.Component payload={Payload.profile} />
         <Introduce.Component payload={Payload.introduce} />
         <Skill.Component payload={Payload.skill} />

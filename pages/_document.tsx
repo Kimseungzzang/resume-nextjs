@@ -20,6 +20,16 @@ export default class ResumeDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Parisienne&display=swap"
             rel="stylesheet"
           />
+          <style>{`
+            @media print {
+              .no-print {
+                display: none !important;
+              }
+              a[href]::after {
+                content: none !important;
+              }
+            }
+          `}</style>
         </Head>
         <body>
           <Main />

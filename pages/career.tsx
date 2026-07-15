@@ -7,6 +7,7 @@ import { Career } from '../component/career';
 import { Footer } from '../component/footer';
 import { Style } from '../component/common/Style';
 import Payload from '../payload';
+import PrintButton from '../component/common/PrintButton';
 
 function CareerPage() {
   const title = `경력기술서 | ${Payload._global.headTitle}`;
@@ -24,6 +25,9 @@ function CareerPage() {
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a>← 이력서로 돌아가기</a>
             </Link>
+          </Col>
+          <Col className="text-right">
+            <PrintButton />
           </Col>
         </Row>
         <Row className="pb-3">
