@@ -34,7 +34,8 @@ const openSource: IOpenSource.Payload = {
         },
         {
           content: '자세히 보기',
-          href: 'https://velog.io/@kimseungzzang/%EB%82%98%EB%A7%8C%EC%9D%98-AI-%EC%9B%8C%ED%81%AC-%ED%94%8C%EB%A1%9C%EC%9A%B0-%EB%A7%8C%EB%93%9C%EB%8A%94-%EB%B0%A9%EB%B2%95',
+          href:
+            'https://velog.io/@kimseungzzang/%EB%82%98%EB%A7%8C%EC%9D%98-AI-%EC%9B%8C%ED%81%AC-%ED%94%8C%EB%A1%9C%EC%9A%B0-%EB%A7%8C%EB%93%9C%EB%8A%94-%EB%B0%A9%EB%B2%95',
         },
       ],
     },
@@ -49,8 +50,7 @@ const openSource: IOpenSource.Payload = {
           boldText: '수용 한도(1,000명)를 3배(3,000명)까지 초과하는 버그를 실측 발견',
         },
         {
-          content:
-            '고정 3초 폴링 → 순번 기반 동적 폴링으로 전환해 폴링 트래픽 44% 감소',
+          content: '고정 3초 폴링 → 순번 기반 동적 폴링으로 전환해 폴링 트래픽 44% 감소',
         },
         {
           content: 'Redis를 직접 구현하고, real Redis와 처리량·지연 비교 분석',
