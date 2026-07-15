@@ -188,13 +188,13 @@ const career: ICareer.Payload = {
           skillKeywords: ['Spring Boot', 'MCP Protocol', 'Sentry API', 'CloudWatch'],
           role: '1인 단독 설계·구현',
           blocks: [
-            { type: 'heading', text: '문제 상황' },
+            { type: 'heading', text: '서비스 정의' },
             {
               type: 'paragraph',
               text:
                 '개발 중 API 스펙 확인이 필요할 때마다 Swagger UI를 별도로 열고, 데이터 확인을 위해 DBeaver를 켜고, 에러 발생 시 Sentry 대시보드를 확인하는 등 컨텍스트 전환 비용이 반복적으로 발생했습니다. 2인뿐인 적은 인원으로 개발하다 보니 이런 단순 확인 작업에 쓰는 시간이 적지 않았습니다.',
             },
-            { type: 'heading', text: '해결 방법' },
+            { type: 'heading', text: '구현 내용' },
             {
               type: 'paragraph',
               text:
