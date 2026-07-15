@@ -247,13 +247,18 @@ const career: ICareer.Payload = {
             },
             {
               type: 'list',
+              ordered: true,
               items: [
                 'Notion DB를 60초 주기로 Polling해 신규·변경 버그 감지 → Discord 채널에 즉시 알림',
                 'Discord 메시지에 Repository 선택·AI Provider 선택·AI 해결 버튼 인터랙션 제공',
                 '버튼 클릭 시 Backend가 SQS에 작업을 enqueue, AI Worker가 polling 후 처리',
                 'AI Worker는 선택한 Provider(Claude / Gemini / Codex)에 맞는 CLI 명령어를 조합해 선택한 Repository 경로에서 비대화형으로 실행. QA팀이 정해진 양식(문제 상황·재현 단계·예상 결과·실제 결과)으로 작성한 노션 버그 리포트를 파싱해 프롬프트로 구성한 뒤 넘겨줌',
-                '단순한 버그는 AI가 자동으로 수정 가능했으나, API 서버와 클라이언트를 동시에 파악해야 하는 복합적인 버그는 단일 레포 컨텍스트만으로는 해결이 어려웠음 — 멀티 레포 컨텍스트 지원이 필요한 한계로 파악',
               ],
+            },
+            {
+              type: 'paragraph',
+              text:
+                '단순한 버그는 AI가 자동으로 수정 가능했으나, API 서버와 클라이언트를 동시에 파악해야 하는 복합적인 버그는 단일 레포 컨텍스트만으로는 해결이 어려웠습니다 — 멀티 레포 컨텍스트 지원이 필요한 한계로 파악했습니다.',
             },
             { type: 'heading', text: '한계점 및 개선 방향 — SQS Queue Thrashing' },
             {
