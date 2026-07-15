@@ -194,21 +194,19 @@ const career: ICareer.Payload = {
               text:
                 '개발 중 API 스펙 확인이 필요할 때마다 Swagger UI를 별도로 열고, 데이터 확인을 위해 DBeaver를 켜고, 에러 발생 시 Sentry 대시보드를 확인하는 등 컨텍스트 전환 비용이 반복적으로 발생했습니다. 2인뿐인 적은 인원으로 개발하다 보니 이런 단순 확인 작업에 쓰는 시간이 적지 않았습니다.',
             },
+            { type: 'heading', text: '해결 방법' },
             {
               type: 'paragraph',
               text:
-                '이런 반복 업무를 AI가 직접 수행할 수 있도록, 사내 인프라와 AI를 직접 연결하는 MCP 서버를 구현해 생산성을 높이고자 했습니다.',
+                '이런 반복 업무를 AI가 직접 수행할 수 있도록, 사내 인프라와 AI를 직접 연결하는 MCP 서버를 Spring Boot 기반으로 구현했습니다.',
             },
-            { type: 'heading', text: '구현 내용' },
             {
               type: 'list',
               items: [
-                'Swagger 연동 툴: AI가 사내 API 명세를 직접 조회해 엔드포인트·파라미터·응답 구조를 파악',
-                'DB 조회 툴: AI가 자연어로 데이터 조회 요청을 받아 실제 DB에서 결과를 확인. 코드 레벨에서 SELECT 쿼리만 허용하고 INSERT·UPDATE·DELETE 등 데이터 변경 쿼리는 차단해 AI가 데이터를 임의로 수정할 수 없도록 처리',
-                'Sentry 연동 툴: AI가 Sentry API를 통해 최근 에러 발생 현황과 상세 내역을 직접 조회',
-                'CloudWatch 연동 툴: AI가 CloudWatch 로그·메트릭을 직접 조회해 인프라 상태를 확인',
-                '사내 QA 대시보드 연동 툴: AI가 사내 자동화 E2E QA 서버의 테스트 결과를 직접 조회',
-                'Spring Boot 기반으로 MCP 프로토콜을 구현해 Claude 등 AI 클라이언트와 연동',
+                'Swagger 연동 툴 — API 명세를 직접 조회해 엔드포인트·파라미터·응답 구조 파악',
+                'DB 조회 툴 — 자연어 요청을 SELECT 쿼리로 변환해 조회. 코드 레벨 쿼리 검증에 더해 DB 계정 자체를 SELECT 단일 권한으로 제한해, 툴을 우회해 접속하더라도 데이터 변경이 원천적으로 불가능하도록 이중 방어',
+                'Sentry·CloudWatch 연동 툴 — 최근 에러 발생 현황과 인프라 로그·메트릭을 직접 조회',
+                '사내 QA 대시보드 연동 툴 — 자동화 E2E QA 서버의 테스트 결과를 직접 조회',
               ],
             },
             {
@@ -216,42 +214,10 @@ const career: ICareer.Payload = {
               src: mcpServerArchitecture,
               alt: '사내 MCP 서버 구성',
             },
-            { type: 'heading', text: 'DB 조회 툴 — SQL 검증 3단계' },
             {
               type: 'paragraph',
               text:
-                'Claude는 자연어 요청을 SELECT SQL 문자열로 직접 생성해 도구 호출 인자로 전달하고, 서버는 이 문자열을 그대로 실행합니다. LLM이 생성한 임의의 문자열이 DB에 곧바로 실행되는 구조이기 때문에, 코드 레벨에서 3단계 방어 로직을 두었습니다.',
-            },
-            {
-              type: 'list',
-              ordered: true,
-              items: [
-                'SELECT 강제(validateQuery) — 쿼리가 SELECT로 시작하지 않으면 즉시 차단',
-                '키워드 블랙리스트(BLOCKED_KEYWORDS) — SELECT로 시작해도 INSERT·UPDATE·DELETE·DROP 등이 포함되어 있으면 차단. SELECT 1; DROP TABLE users처럼 세미콜론으로 명령을 이어붙이는 인젝션을 막기 위함',
-                '민감 컬럼 마스킹(SENSITIVE_COLUMNS) — 검증을 통과해 조회가 성공해도, password·token 등 민감 컬럼 값은 "***"로 치환해 반환',
-              ],
-            },
-            {
-              type: 'paragraph',
-              text:
-                '테이블 목록 조회(listTables)·스키마 조회(getTableSchema)는 SQL을 직접 받지 않고 information_schema 같은 시스템 뷰만 조회하도록 고정해 인젝션 가능성 자체를 없앴고, 특정 테이블 조회(queryTable)는 테이블명을 영문·숫자·언더스코어로만 검증해 인젝션을 차단했습니다.',
-            },
-            { type: 'heading', text: '한계점 — 툴 우회와 DB 계정 권한 제한' },
-            {
-              type: 'paragraph',
-              text:
-                '코드 레벨 검증만으로는 완전한 방어가 되지 않는다는 것을 실제로 확인했습니다. Claude가 db_query 툴을 거치지 않고, 별도로 확보한 DB 접속 정보로 DB에 직접 접속해 쿼리를 실행해버린 사례가 있었습니다. 이 경우 SELECT 강제·키워드 블랙리스트 등 애플리케이션 코드에 구현한 검증 로직 자체가 통째로 우회되기 때문에, 코드 레벨 방어만으로는 근본적인 해결이 되지 않는다고 판단했습니다.',
-            },
-            {
-              type: 'paragraph',
-              text:
-                '이를 해결하기 위해 MCP 서버가 사용하는 DB 계정 자체의 권한을 SELECT 단일 권한으로 제한했습니다. 툴 코드를 우회해 어떤 경로로 접속하더라도 DB 계정 권한상 INSERT·UPDATE·DELETE 등의 실행이 원천적으로 불가능해지므로, 애플리케이션 로직에 의존하지 않는 방어선을 확보할 수 있었습니다.',
-            },
-            { type: 'heading', text: '도입 효과 및 관점' },
-            {
-              type: 'paragraph',
-              text:
-                'API 명세·DB 데이터·에러 현황을 AI가 직접 참조할 수 있게 되면서, 적은 인원으로도 반복적인 확인 작업에 쓰는 시간을 크게 줄일 수 있었습니다. 단순히 툴을 사용하는 것을 넘어 MCP 서버를 직접 구현한 경험을 통해, AI를 개발 워크플로우의 일부로 통합하는 방법에 대한 실질적인 이해를 쌓았습니다.',
+                'API 명세·DB 데이터·에러 현황을 AI가 직접 참조할 수 있게 되면서, 적은 인원으로도 반복적인 확인 작업에 쓰는 시간을 크게 줄일 수 있었습니다.',
             },
           ],
         },
