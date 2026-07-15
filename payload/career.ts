@@ -243,7 +243,7 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                '이후 DB + AWS SQS 구조로 전환해 상태 추적과 장애 복구, Worker 수평 확장이 가능하도록 개선했습니다. 처리할 AI Worker가 소수이고 각 작업이 정확히 한 번씩 처리되는 것이 중요했기 때문에, 재시도(Visibility Timeout)·DLQ 같은 큐 자체 기능을 그대로 활용할 수 있는 단일 SQS Standard 큐로 충분하다고 판단했습니다. 다만 Worker 수가 늘어 작업을 Worker별로 분리해야 하는 시점이 오면 SNS+SQS 조합이나, Worker별 독립 소비가 가능한 Kafka로 전환하는 방향을 염두에 두고 있습니다.',
+                '이후 DB + AWS SQS 구조로 전환해 상태 추적과 장애 복구, Worker 수평 확장이 가능하도록 개선했습니다. 처리할 AI Worker가 소수이고 각 작업이 정확히 한 번씩 처리되는 것이 중요했기 때문에, 재시도·DLQ 같은 큐 자체 기능을 그대로 활용할 수 있는 단일 SQS Standard 큐로 충분하다고 판단했습니다. 다만 Worker 수가 늘어 작업을 Worker별로 분리해야 하는 시점이 오면 SNS+SQS 조합이나, Worker별 독립 소비가 가능한 Kafka로 전환하는 방향을 염두에 두고 있습니다.',
             },
             {
               type: 'list',
