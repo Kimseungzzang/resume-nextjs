@@ -218,21 +218,10 @@ const career: ICareer.Payload = {
             { type: 'heading', text: '설계 및 구현' },
             {
               type: 'paragraph',
-              text: '초기에는 JSON 파일 기반으로 상태를 관리했으나 두 가지 문제가 있었습니다.',
-            },
-            {
-              type: 'list',
-              ordered: true,
-              items: [
-                '여러 프로세스가 동시에 파일을 읽고 쓸 경우 데이터가 덮어씌워지거나 유실될 수 있어 안정성이 부족했습니다.',
-                'AI Worker를 여러 대로 늘리면 같은 작업을 중복으로 처리하거나 작업이 누락되는 문제가 발생해 수평 확장이 어려웠습니다.',
-              ],
-            },
-            {
-              type: 'paragraph',
               text:
-                '이후 DB + AWS SQS 구조로 전환해 상태 추적과 장애 복구, Worker 수평 확장이 가능하도록 개선했습니다. 처리할 AI Worker가 소수이고 각 작업이 정확히 한 번씩 처리되는 것이 중요했기 때문에, 재시도·DLQ 같은 큐 자체 기능을 그대로 활용할 수 있는 단일 SQS Standard 큐로 충분하다고 판단했습니다. 다만 Worker 수가 늘어 작업을 Worker별로 분리해야 하는 시점이 오면 SNS+SQS 조합이나, Worker별 독립 소비가 가능한 Kafka로 전환하는 방향을 염두에 두고 있습니다.',
+                'DB + AWS SQS 구조로 상태 추적과 장애 복구, Worker 수평 확장이 가능하도록 설계했습니다. 처리할 AI Worker가 소수이고 각 작업이 정확히 한 번씩 처리되는 것이 중요했기 때문에, 재시도·DLQ 같은 큐 자체 기능을 그대로 활용할 수 있는 단일 SQS Standard 큐로 충분하다고 판단했습니다.',
             },
+            { type: 'heading', text: '동작 프로세스' },
             {
               type: 'list',
               ordered: true,
