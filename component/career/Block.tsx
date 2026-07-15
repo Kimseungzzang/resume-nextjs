@@ -12,14 +12,16 @@ export default function CareerBlock({ block }: PropsWithChildren<{ block: ICaree
       );
     case 'paragraph':
       return <p className="mb-2">{block.text}</p>;
-    case 'list':
+    case 'list': {
+      const ListTag = block.ordered ? 'ol' : 'ul';
       return (
-        <ul>
+        <ListTag>
           {block.items.map((item, index) => (
             <li key={index.toString()}>{item}</li>
           ))}
-        </ul>
+        </ListTag>
       );
+    }
     case 'code':
       return (
         <pre

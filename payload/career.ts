@@ -46,24 +46,14 @@ const career: ICareer.Payload = {
             },
             { type: 'heading', text: '기술 선택 과정' },
             {
-              type: 'paragraph',
-              text:
+              type: 'list',
+              ordered: true,
+              items: [
                 '처음에는 PostgreSQL의 SELECT FOR UPDATE(비관적 락)를 검토했습니다. 그러나 등록 인원이 단순 count 컬럼이 아닌 수검자 테이블·담당 직원 테이블·소속 기관 테이블의 JOIN 기반 집계 쿼리로 계산되는 구조였기 때문에, FOR UPDATE 시 JOIN으로 연결된 담당 직원·소속 기관 테이블처럼 여러 그룹이 공유하는 테이블의 행에까지 락이 걸려, 서로 다른 검사 그룹 간에도 불필요한 락 경합이 발생할 수 있다는 문제가 있었습니다.',
-            },
-            {
-              type: 'paragraph',
-              text:
                 'Redis의 DECR 명령으로 카운터를 원자적으로 차감하는 방식도 고려했습니다. 그러나 이 방식은 PostgreSQL과 별도로 Redis에 카운터 상태를 추가로 두고 두 저장소 간 정합성을 맞춰야 하는데, 현재 동시 등록 트래픽 규모에서는 이 정도의 인프라를 추가할 필요가 없다고 판단해 적용하지 않았습니다.',
-            },
-            {
-              type: 'paragraph',
-              text:
                 'UPDATE ... WHERE count < limit 형태의 조건부 업데이트도 검토했습니다. 이 방식은 DB의 row-level 락만으로 원자적으로 처리되어 별도 락 없이도 정원 초과를 막을 수 있다는 장점이 있습니다. 다만 이를 적용하려면 현재 인원을 별도의 카운터 컬럼으로 새로 관리해야 하고, 수검자 취소·변경 등 다른 경로로 데이터가 바뀔 때마다 이 카운터를 JOIN 집계 결과와 항상 일치시켜야 하는 동기화 문제가 새로 생겨, 기존 데이터 모델을 바꾸지 않고는 적용하기 어려웠습니다.',
-            },
-            {
-              type: 'paragraph',
-              text:
                 '이를 해결하기 위해 PostgreSQL의 pg_advisory_xact_lock을 선택했습니다. pg_try_advisory_xact_lock 같은 논블로킹 방식도 검토했으나, 순서 보장이 필요하고 락 경합이 빈번하지 않을 것으로 예상되어 블로킹 방식인 pg_advisory_xact_lock을 사용했습니다. 이 방식은 DB row가 아닌 애플리케이션이 정의한 임의의 키 단위로 락을 획득할 수 있어, 기존 JOIN 집계 쿼리 로직은 그대로 둔 채 동일 검사 그룹에 대한 요청만 직렬화하고 관련 없는 그룹 간의 락 경합을 최소화할 수 있었습니다.',
+              ],
             },
             { type: 'heading', text: '구현 방식' },
             {
@@ -557,7 +547,8 @@ const career: ICareer.Payload = {
         },
         {
           content: '자세히 보기',
-          href: 'https://velog.io/@kimseungzzang/%EB%82%98%EB%A7%8C%EC%9D%98-AI-%EC%9B%8C%ED%81%AC-%ED%94%8C%EB%A1%9C%EC%9A%B0-%EB%A7%8C%EB%93%9C%EB%8A%94-%EB%B0%A9%EB%B2%95',
+          href:
+            'https://velog.io/@kimseungzzang/%EB%82%98%EB%A7%8C%EC%9D%98-AI-%EC%9B%8C%ED%81%AC-%ED%94%8C%EB%A1%9C%EC%9A%B0-%EB%A7%8C%EB%93%9C%EB%8A%94-%EB%B0%A9%EB%B2%95',
         },
       ],
     },

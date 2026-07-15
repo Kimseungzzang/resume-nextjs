@@ -17,16 +17,17 @@ const project: IProject.Payload = {
           descriptions: [
             {
               content: '자세히 보기',
-              href: 'https://velog.io/@kimseungzzang/PostgreSQL-Advisory-Lock%EC%9D%B4-%EB%AD%94%EB%8D%B0',
+              href:
+                'https://velog.io/@kimseungzzang/PostgreSQL-Advisory-Lock%EC%9D%B4-%EB%AD%94%EB%8D%B0',
             },
           ],
         },
         {
           content:
-            '이메일 발송 구조를 SQS 기반 비동기 이벤트 아키텍처로 개발하고, DLQ 연동으로 처리 실패 메시지의 유실을 방지해 데이터 정합성 확보 및 응답 지연 제거',
+            '@TransactionalEventListener(AFTER_COMMIT)와 @Async를 활용해 트랜잭션 커밋 후 별도 스레드에서 이메일을 발송하도록 설계해 응답 지연 제거',
         },
       ],
-      skillKeywords: ['Next.js', 'Spring Boot', 'PostgreSQL', 'SQS', 'ECS'],
+      skillKeywords: ['Next.js', 'Spring Boot', 'PostgreSQL', 'ECS'],
     },
     {
       title: 'SNSB3 앱',

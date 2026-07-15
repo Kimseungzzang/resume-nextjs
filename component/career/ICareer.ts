@@ -50,7 +50,7 @@ export declare namespace ICareer {
   export type Block =
     | { type: 'heading'; text: string }
     | { type: 'paragraph'; text: string }
-    | { type: 'list'; items: string[] }
+    | { type: 'list'; items: string[]; ordered?: boolean }
     | { type: 'code'; code: string }
     | { type: 'image'; src: string; alt: string };
 }
