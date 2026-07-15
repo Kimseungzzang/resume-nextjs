@@ -22,6 +22,17 @@ export default class ResumeDocument extends Document {
           />
           <style>{`
             @media print {
+              /*
+                margin 을 0으로 주면 Chrome 이 자체적으로 붙이는 인쇄 머리말/꼬리말
+                (날짜, 페이지 제목, URL, 쪽 번호)이 표시되지 않는다. 대신 여백은
+                body padding 으로 직접 재현한다.
+              */
+              @page {
+                margin: 0;
+              }
+              body {
+                padding: 1.6cm;
+              }
               .no-print {
                 display: none !important;
               }
