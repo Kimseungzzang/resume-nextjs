@@ -28,6 +28,33 @@ export default class ResumeDocument extends Document {
               a[href]::after {
                 content: none !important;
               }
+              /*
+                인쇄 시 Chrome 이 계산하는 페이지 폭이 Bootstrap 의 md 브레이크포인트(768px)보다
+                좁아져 반응형 그리드가 세로로 쌓이는 문제를 막기 위해, 실제 사용 중인
+                col-md-*, text-md-* 규칙을 미디어 쿼리 조건 없이 강제 적용한다.
+              */
+              .col-md-3 {
+                flex: 0 0 25% !important;
+                max-width: 25% !important;
+              }
+              .col-md-4 {
+                flex: 0 0 33.333333% !important;
+                max-width: 33.333333% !important;
+              }
+              .col-md-9 {
+                flex: 0 0 75% !important;
+                max-width: 75% !important;
+              }
+              .col-md-12 {
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
+              }
+              .text-md-left {
+                text-align: left !important;
+              }
+              .text-md-right {
+                text-align: right !important;
+              }
             }
           `}</style>
         </Head>

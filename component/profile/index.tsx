@@ -81,7 +81,7 @@ function createDetailButtonArea(detailButton: Payload['detailButton']) {
   return (
     <EmptyRowCol>
       <Link href={detailButton.href} passHref>
-        <Button tag="a" color="primary" outline>
+        <Button tag="a" color="primary" outline className="no-print">
           {detailButton.title}
         </Button>
       </Link>

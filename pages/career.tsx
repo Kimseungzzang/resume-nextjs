@@ -20,7 +20,7 @@ function CareerPage() {
       </Head>
       <Container style={Style.global}>
         <Row className="mt-5">
-          <Col>
+          <Col className="no-print">
             <Link href="/">
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <a>← 이력서로 돌아가기</a>
