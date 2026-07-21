@@ -11,7 +11,7 @@ const introduce: IIntroduce.Payload = {
     },
     {
       content:
-        'count 컬럼 없이 테이블 조인 집계로 인원을 세야 하는 동시 등록 레이스 컨디션은 PostgreSQL Advisory Lock으로, 순서 보장이 필요 없는 이메일 발송 이벤트는 FIFO 대신 일반 SQS로 처리하는 등 상황에 맞는 기술을 찾아 적용합니다.',
+        'count 컬럼 없이 테이블 조인 집계로 인원을 세야 하는 동시 등록 레이스 컨디션은 PostgreSQL Advisory Lock으로, 순서 보장이 필요 없는 큐 작업은 FIFO 대신 일반 SQS로 처리하는 등 상황에 맞는 기술을 찾아 적용합니다.',
       boldText: '상황에 맞는 기술을 찾아 적용',
     },
     {

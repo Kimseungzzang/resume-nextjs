@@ -14,11 +14,16 @@ import { Profile } from '../component/profile';
 import { Project } from '../component/project';
 import { Skill } from '../component/skill';
 import { Style } from '../component/common/Style';
-import Payload from '../payload';
+import { getPayload } from '../payload';
 import { Article } from '../component/article';
 import PrintButton from '../component/common/PrintButton';
+import LanguageToggle from '../component/common/LanguageToggle';
+import { useLanguage } from '../component/common/LanguageContext';
 
 function Yosume() {
+  const { lang } = useLanguage();
+  const Payload = getPayload(lang);
+
   return (
     <>
       <NextSeo {...Payload._global.seo} />
@@ -30,6 +35,7 @@ function Yosume() {
         <Row className="pt-3">
           <Col className="text-right">
             <PrintButton />
+            <LanguageToggle />
           </Col>
         </Row>
         <Profile.Component payload={Payload.profile} />

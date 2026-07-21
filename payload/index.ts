@@ -13,6 +13,22 @@ import career from './career';
 
 import { _global } from './_global';
 
+import enProfile from './en/profile';
+import enIntroduce from './en/introduce';
+import enSkill from './en/skill';
+import enExperience from './en/experience';
+import enOpenSource from './en/openSource';
+import enProject from './en/project';
+import enPresentation from './en/presentation';
+import enEducation from './en/education';
+import enArticle from './en/article';
+import enEtc from './en/etc';
+import enFooter from './en/footer';
+import enCareer from './en/career';
+
+import { _global as enGlobal } from './en/_global';
+
+import { Lang } from '../component/common/LanguageContext';
 import { IProfile } from '../component/profile/IProfile';
 import { IIntroduce } from '../component/introduce/IIntroduce';
 import { ISkill } from '../component/skill/ISkill';
@@ -26,23 +42,6 @@ import { IFooter } from '../component/footer/IFooter';
 import { IGlobal } from '../component/common/IGlobal';
 import { IArticle } from '../component/article/IArticle';
 import { ICareer } from '../component/career/ICareer';
-
-const Payload: Payload = {
-  profile,
-  introduce,
-  skill,
-  openSource,
-  experience,
-  project,
-  presentation,
-  article,
-  education,
-  etc,
-  footer,
-  career,
-
-  _global,
-};
 
 interface Payload {
   profile: IProfile.Payload;
@@ -61,4 +60,42 @@ interface Payload {
   _global: IGlobal.Payload;
 }
 
-export default Payload;
+const koPayload: Payload = {
+  profile,
+  introduce,
+  skill,
+  openSource,
+  experience,
+  project,
+  presentation,
+  article,
+  education,
+  etc,
+  footer,
+  career,
+
+  _global,
+};
+
+const enPayload: Payload = {
+  profile: enProfile,
+  introduce: enIntroduce,
+  skill: enSkill,
+  openSource: enOpenSource,
+  experience: enExperience,
+  project: enProject,
+  presentation: enPresentation,
+  article: enArticle,
+  education: enEducation,
+  etc: enEtc,
+  footer: enFooter,
+  career: enCareer,
+
+  _global: enGlobal,
+};
+
+export function getPayload(lang: Lang): Payload {
+  return lang === 'en' ? enPayload : koPayload;
+}
+
+export default koPayload;

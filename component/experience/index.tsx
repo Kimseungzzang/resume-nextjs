@@ -8,6 +8,7 @@ import { IExperience } from './IExperience';
 import { PreProcessingComponent } from '../common/PreProcessingComponent';
 import { Style } from '../common/Style';
 import Util from '../common/Util';
+import { Lang, useLanguage } from '../common/LanguageContext';
 
 type Payload = IExperience.Payload;
 
@@ -21,13 +22,15 @@ export const Experience = {
 };
 
 function Component({ payload }: PropsWithChildren<{ payload: Payload }>) {
+  const { lang } = useLanguage();
+
   const totalPeriod = () => {
     if (payload.disableTotalPeriod) {
       return '';
     }
     return (
       <span style={{ fontSize: '50%' }}>
-        <Badge>{getFormattingExperienceTotalDuration(payload)}</Badge>
+        <Badge>{getFormattingExperienceTotalDuration(payload, lang)}</Badge>
       </span>
     );
   };
@@ -48,7 +51,7 @@ function Component({ payload }: PropsWithChildren<{ payload: Payload }>) {
   );
 }
 
-function getFormattingExperienceTotalDuration(payload: IExperience.Payload) {
+function getFormattingExperienceTotalDuration(payload: IExperience.Payload, lang: Lang) {
   const durations = payload.list.reduce((acc: Duration[], item: IExperience.Item) => {
     const itemDurations = item.positions.map((position: IExperience.Position) => {
       const endedAt = position.endedAt
@@ -65,5 +68,8 @@ function getFormattingExperienceTotalDuration(payload: IExperience.Payload) {
     Duration.fromMillis(0),
   );
 
+  if (lang === 'en') {
+    return totalExperience.toFormat("'Total 'y'y 'M'm'");
+  }
   return totalExperience.toFormat(`총 ${Util.LUXON_DATE_FORMAT.DURATION_KINDNESS}`);
 }

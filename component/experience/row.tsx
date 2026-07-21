@@ -5,6 +5,7 @@ import { PropsWithChildren } from 'react';
 import { IExperience } from './IExperience';
 import { Style } from '../common/Style';
 import Util from '../common/Util';
+import { useLanguage } from '../common/LanguageContext';
 
 type PositionWithDates = IExperience.Position & {
   startedAtDate: DateTime;
@@ -16,6 +17,8 @@ export default function ExperienceRow({
   item,
   index,
 }: PropsWithChildren<{ item: IExperience.Item; index: number }>) {
+  const { lang } = useLanguage();
+
   const positionsWithDates: PositionWithDates[] = item.positions.map((position) => ({
     ...position,
     startedAtDate: DateTime.fromFormat(position.startedAt, Util.LUXON_DATE_FORMAT.YYYY_LL),
@@ -68,11 +71,11 @@ export default function ExperienceRow({
             <span style={{ fontSize: '65%', display: 'inline-flex', alignItems: 'center' }}>
               {isCurrentlyEmployed && (
                 <Badge color="primary" className="ml-1">
-                  재직 중
+                  {lang === 'en' ? 'Present' : '재직 중'}
                 </Badge>
               )}
               <Badge color="info" className="ml-1">
-                {Util.getFormattingDuration(minStartedAt, maxEndedAt)}
+                {Util.getFormattingDuration(minStartedAt, maxEndedAt, lang)}
               </Badge>
             </span>
           </h4>
