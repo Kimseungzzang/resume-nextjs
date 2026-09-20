@@ -25,7 +25,7 @@ const openSource: IOpenSource.Payload = {
       ],
     },
     {
-      title: 'Claude Code 세션 유지 파이프라인',
+      title: 'AI 에이전트 세션 유지 파이프라인',
       descriptions: [
         { content: '여러 기기 간 작업 컨텍스트를 GitHub로 동기화하는 커스텀 스킬 모음' },
         {
