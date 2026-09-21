@@ -38,7 +38,7 @@ const project: IProject.Payload = {
         { content: '검사자용 태블릿 검사·채점 앱 개발' },
         {
           content:
-            'shell-init 집계 API 도입과 Lazy 빌드 전환으로 검사 진입 시 중복 API 호출 28회 → 1회로 축소',
+            '검사 진입에 필요한 데이터를 단일 API로 통합하고 화면을 지연 생성해, 초기 API 호출을 28회에서 1회로 축소',
         },
       ],
       skillKeywords: ['Flutter'],
