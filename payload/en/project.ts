@@ -83,7 +83,7 @@ const project: IProject.Payload = {
           ],
         },
       ],
-      skillKeywords: ['Spring Boot', 'DiscordBot', 'Claude CLI', 'SQS', 'Notion', 'Node.js'],
+      skillKeywords: ['Spring Boot', 'DiscordBot', 'Claude CLI', 'SQS', 'Notion', 'Nest.js'],
     },
     {
       title: 'Laser Evacuation Guide Real-time Control System',

@@ -46,7 +46,7 @@ const career: ICareer.Payload = {
               type: 'list',
               ordered: true,
               items: [
-                "I first considered PostgreSQL's SELECT FOR UPDATE (pessimistic locking). However, since the registration count wasn't a simple count column but was computed via a JOIN-based aggregate query across the test-taker, staff, and affiliated-institution tables, FOR UPDATE would also lock rows in tables shared across multiple groups — such as the staff and institution tables pulled in by the JOIN — causing unnecessary lock contention even between unrelated test groups.",
+                "I first considered PostgreSQL's SELECT FOR UPDATE (pessimistic locking). The registration count is computed by a COUNT(*) aggregate query, and PostgreSQL does not allow a locking clause on aggregate queries, so I first looked at rewriting it as a non-aggregate query that locks the test-taker rows belonging to the group. FOR UPDATE OF could confine the lock to the test-taker table and thus avoid locking the staff and affiliated-institution tables pulled in by the JOIN, but FOR UPDATE only locks rows that already exist, so it could not prevent concurrent INSERTs from exceeding the quota in the first place — which is why I rejected it.",
                 "I also considered atomically decrementing a counter with Redis's DECR command, but this would require keeping a separate counter state in Redis alongside PostgreSQL and reconciling consistency between the two stores. I judged that adding this much infrastructure wasn't justified at the current scale of concurrent registration traffic, so I didn't adopt it.",
                 "I also considered a conditional update of the form UPDATE ... WHERE count < limit. This has the advantage of being handled atomically purely with the DB's row-level lock, blocking overflow with no separate locking. However, applying it would require newly managing the current count as a separate counter column, and every time data changed through another path — such as a test-taker cancellation or edit — that counter would need to stay in sync with the JOIN aggregate result, introducing a new synchronization problem that made it hard to apply without changing the existing data model.",
                 "To solve this, I chose PostgreSQL's **pg_advisory_xact_lock**. I also considered a non-blocking option like pg_try_advisory_xact_lock, but since ordering needed to be guaranteed and lock contention was expected to be infrequent, I used the blocking pg_advisory_xact_lock. This approach acquires a lock on an arbitrary application-defined key rather than a DB row, so I could leave the existing JOIN aggregate query logic untouched, serialize only requests for the same test group, and minimize lock contention between unrelated groups.",
@@ -205,7 +205,7 @@ const career: ICareer.Payload = {
         },
         {
           title: 'Internal Infrastructure — Notion-Discord-AI Automated Bug-Handling Pipeline',
-          skillKeywords: ['Node.js', 'AWS SQS', 'Discord Bot', 'Notion API'],
+          skillKeywords: ['Nest.js', 'AWS SQS', 'Discord Bot', 'Notion API'],
           role: 'Solo design and implementation',
           blocks: [
             { type: 'heading', text: 'Problem' },

@@ -2,7 +2,7 @@ import { ISkill } from '../component/skill/ISkill';
 
 const backend: ISkill.Skill = {
   category: 'Backend',
-  items: [{ title: 'Spring Boot' }, { title: 'Node.js' }, { title: 'Kotlin' }, { title: 'Java' }],
+  items: [{ title: 'Spring Boot' }, { title: 'Nest.js' }, { title: 'Kotlin' }, { title: 'Java' }],
 };
 
 const frontend: ISkill.Skill = {

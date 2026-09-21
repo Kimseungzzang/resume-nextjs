@@ -71,7 +71,7 @@ const project: IProject.Payload = {
           ],
         },
       ],
-      skillKeywords: ['Spring Boot', 'DiscordBot', 'Claude CLI', 'SQS', 'Notion', 'Node.js'],
+      skillKeywords: ['Spring Boot', 'DiscordBot', 'Claude CLI', 'SQS', 'Notion', 'Nest.js'],
     },
     {
       title: '레이저 피난 유도기 실시간 관제 시스템',
