@@ -150,7 +150,7 @@ const career: ICareer.Payload = {
             {
               type: 'list',
               items: [
-                "Duplicate API calls (thundering herd) — the test screen is made up of 28 individual sub-test items. Since the test-data lookup API wasn't split per item and instead returned the entire test result at once, every item controller independently called the same full-lookup API each time it initialized. Because HTTP/1.1 processes requests serially, this produced a **214ms × 28 ≈ 6,000ms delay**.",
+                "Duplicate API calls (thundering herd) — the test screen is made up of 28 individual sub-test items. Since the test-data lookup API wasn't split per item and instead returned the entire test result at once, every item controller independently called the same full-lookup API each time it initialized. Because controller initialization happened sequentially, **up to 28 calls for the same response accumulated**.",
                 'Rendering all pages up front — to avoid delays from widget creation and API calls on every page transition, the app used an IndexedStack to build all ~39 test-page widgets and fire off each of their API calls at entry time. This made page transitions fast, but caused a large initial load because widget building and API calls all piled up at entry time.',
               ],
             },
@@ -158,8 +158,9 @@ const career: ICareer.Payload = {
             {
               type: 'list',
               items: [
+                'Added a server-side entry API — judging that the root cause lay in the API design, I **added a shell-init aggregate endpoint to the backend** that returns the test-taker info, test list, and sub-test data needed for the test screen in a single response. The app now calls this once on entry and loads the full payload into its per-sub-test cache.',
                 "Removed duplicate API calls — only the first caller triggers the real API call, and the other 27 share and await the same Future. Once the API response arrives, the result is cached, and subsequent requests return immediately as cache hits, **cutting what used to be up to 28 API calls down to 1**. Because this cache is reused for the whole session, consistency needed to be managed: I added a fallback that re-calls the API on a cache miss, and since the results page — which aggregates every sub-page's result — initially showed the stale, pre-change cached value, I made each sub-page immediately refresh its cache entry on value change so the results page always reflects the latest value on entry.",
-                "Switched to lazy building — removed the IndexedStack and changed it to conditionally render only the page currently being viewed. Since the test data is already loaded into the cache by then, opening a page for the first time only needs to build the widget from cached data, with no additional API call. Once a page widget is built, it's kept as-is (cached) afterward, so revisiting the same page doesn't rebuild the widget. As a result, I was able to greatly reduce the initial load at entry time without adding any delay to page transitions.",
+                'Switched to lazy building — kept the IndexedStack but made its children build lazily. At entry time, unvisited pages are placeholder widgets, and a real widget is built into the slot only when that page is first opened. Because the IndexedStack was kept, a page that has been built stays in the tree, so **its input state is fully preserved** and revisiting never triggers a rebuild. The test data is already in the cache by then, so opening a page for the first time only builds the widget, with no additional API call. As a result, I greatly reduced the initial load at entry time while keeping page transitions just as fast.',
               ],
             },
             {
