@@ -55,11 +55,11 @@ const openSource: IOpenSource.Payload = {
         },
         {
           content:
-            'Ran load tests on the waiting queue at a scale of 10,000 RPS on a single machine using k6',
+            'Ran load tests on the waiting queue at a scale of 10,000 RPS, driving k6 from a separate machine over the internal network',
         },
         {
           content:
-            'Empirically discovered a bug where a race condition in the entry-processing logic caused the capacity limit (1,000) to be exceeded by up to 3x (3,000), then redesigned with optimistic locking to guarantee accuracy with no overflow',
+            'Empirically discovered a bug where a race condition in the entry-processing logic caused the capacity limit (1,000) to be exceeded by up to 3x (3,000). Redesigned it from "read the counter, then decide" to deciding on the return value of an atomic INCR, compensating with a DECR rollback when the cap is exceeded, so the limit holds even as instances scale out',
           boldText:
             'Empirically discovered a bug where a race condition in the entry-processing logic caused the capacity limit (1,000) to be exceeded by up to 3x (3,000)',
         },
@@ -76,7 +76,7 @@ const openSource: IOpenSource.Payload = {
             },
             {
               content:
-                'Found differences in how the Redis client handles TCP socket connections and how Sorted Sets are ordered',
+                'Built RESP protocol parsing and a skip-list-based Sorted Set on top of a Netty event loop. I attribute the performance gap to how the Redis client handles TCP socket connections and to data-structure differences, and am currently verifying this by profiling',
             },
           ],
         },
