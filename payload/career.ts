@@ -233,14 +233,13 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                '각 AI Worker는 서로 다른 PC에서 실행되므로, 특정 PC로 전달해야 하는 작업을 SQS 메시지로 전달했습니다. 그런데 SQS는 메시지를 미리 열어볼 수 없고 꺼낸 후에야 내용을 확인할 수 있기 때문에, Worker가 자신의 작업이 아닌 메시지를 꺼낸 경우 다시 큐에 넣는 방식을 사용했습니다. 현재는 Worker 수가 적어 아직 체감되는 문제는 없지만, Worker 수가 늘어나면 다음 세 가지 문제로 이어질 수 있다고 예상했습니다.',
+                '각 AI Worker는 서로 다른 PC에서 실행되므로, 특정 PC로 전달해야 하는 작업을 SQS 메시지로 전달했습니다. 그런데 SQS는 메시지를 미리 열어볼 수 없고 꺼낸 후에야 내용을 확인할 수 있기 때문에, Worker가 자신의 작업이 아닌 메시지를 꺼낸 경우 다시 큐에 넣는 방식을 사용했습니다. 현재는 Worker 수가 적어 아직 체감되는 문제는 없지만, Worker 수가 늘어나면 다음 두 가지 문제로 이어질 수 있다고 예상했습니다.',
             },
             {
               type: 'list',
               items: [
                 'Queue Thrashing — 모든 Worker가 메시지를 꺼냈다 다시 넣기를 반복하면서 실제 처리보다 큐 작업 자체가 폭증',
                 'Message Starvation — 대상 Worker가 아닌 다른 Worker들이 메시지를 반복해서 꺼내다 보니, 정작 처리해야 할 Worker에게 메시지가 늦게 도달',
-                '정상 메시지의 DLQ 유입 — 메시지를 큐로 되돌릴 때는 원본을 삭제하고 재전송하는 대신 가시성 타임아웃을 0으로 되돌려 중복이 생기지 않도록 했습니다. 다만 이 방식도 SQS의 수신 횟수(ApproximateReceiveCount)를 증가시키기 때문에, Worker 수가 늘어나 남의 메시지를 스치는 횟수가 많아지면 **실패한 적이 없는 정상 작업이 redrive 정책에 걸려 DLQ로 이동**할 수 있음',
               ],
             },
             {
@@ -258,14 +257,7 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                '장기적으로는 Worker별로 메시지를 독립적으로 소비하는 구조로 전환해 경합 자체를 없애는 방향을 고려하고 있으며, 구체적으로는 다음 두 가지를 검토하고 있습니다.',
-            },
-            {
-              type: 'list',
-              items: [
-                'SNS Topic + Worker별 SQS 큐 조합',
-                'Topic과 Consumer Group으로 Worker별 독립 소비가 가능한 Kafka로 전환',
-              ],
+                '장기적으로는 Worker별로 메시지를 독립적으로 소비하는 구조로 전환해 경합 자체를 없애는 방향을 고려하고 있습니다. 구체적으로는 **SNS Topic + Worker별 SQS 큐** 조합을 검토하고 있습니다. SNS 구독 필터로 대상 Worker의 큐에만 메시지를 전달하면, Worker가 자신의 작업이 아닌 메시지를 꺼내는 일 자체가 발생하지 않아 경합이 원천적으로 사라집니다.',
             },
             {
               type: 'paragraph',

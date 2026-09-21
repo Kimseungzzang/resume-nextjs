@@ -238,14 +238,13 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                "Since each AI Worker runs on a different machine, jobs that needed to go to a specific machine were delivered as SQS messages. But because SQS messages can't be inspected before being received — only after — a Worker that pulled a message meant for someone else's job would put it back on the queue. With the current small number of Workers this hasn't been a noticeable problem yet, but I anticipated it could lead to the following three problems as the number of Workers grows.",
+                "Since each AI Worker runs on a different machine, jobs that needed to go to a specific machine were delivered as SQS messages. But because SQS messages can't be inspected before being received — only after — a Worker that pulled a message meant for someone else's job would put it back on the queue. With the current small number of Workers this hasn't been a noticeable problem yet, but I anticipated it could lead to the following two problems as the number of Workers grows.",
             },
             {
               type: 'list',
               items: [
                 'Queue thrashing — all Workers repeatedly pull and re-push messages, causing queue churn to explode well beyond the actual work being done',
                 'Message starvation — because Workers other than the intended one keep pulling the message, it reaches the Worker that actually needs to process it late',
-                "Healthy messages landing in the DLQ — when returning a message to the queue, I reset its visibility timeout to 0 rather than deleting and re-sending it, so no duplicates are created. However, this still increments the message's ApproximateReceiveCount, so as the number of Workers grows and messages are picked up by non-target Workers more often, **jobs that have never actually failed can be pushed into the DLQ by the redrive policy**",
               ],
             },
             {
@@ -263,14 +262,7 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                "Longer-term, I'm considering moving to a structure where each Worker consumes messages independently, eliminating contention altogether, and specifically I'm looking at the following two options.",
-            },
-            {
-              type: 'list',
-              items: [
-                'An SNS topic combined with a per-Worker SQS queue',
-                'Switching to Kafka, where topics and consumer groups allow independent per-Worker consumption',
-              ],
+                "Longer-term, I'm considering moving to a structure where each Worker consumes messages independently, eliminating contention altogether. Specifically, I'm looking at an **SNS topic combined with per-Worker SQS queues**. Using SNS subscription filters to route each message only to the target Worker's queue means a Worker never pulls a message that isn't its own, so contention disappears at the source.",
             },
             {
               type: 'paragraph',
