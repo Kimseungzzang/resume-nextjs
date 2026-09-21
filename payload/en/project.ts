@@ -42,7 +42,7 @@ const project: IProject.Payload = {
         { content: 'Built a tablet app for examiners to administer and score the test' },
         {
           content:
-            'Improved test-entry speed from 6 seconds to under 1 second by removing duplicate API calls and applying lazy loading',
+            'Cut duplicate API calls on test entry from 28 to 1 by introducing a shell-init aggregate API and switching to lazy widget building',
         },
       ],
       skillKeywords: ['Flutter'],

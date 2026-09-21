@@ -218,7 +218,7 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                'I designed a DB + AWS SQS architecture that supports state tracking, failure recovery, and horizontal Worker scaling. Since there were only a small number of AI Workers and it mattered that each job be processed exactly once, I judged that a single SQS Standard queue — which lets built-in queue features like retries and a DLQ be used as-is — was sufficient.',
+                'I designed a DB + AWS SQS architecture that supports state tracking, failure recovery, and horizontal Worker scaling. Because it mattered that a job for the same bug never run twice, I chose an **SQS FIFO queue**, which provides deduplication and per-group ordering. `MessageGroupId` is set per bug, so jobs for the same bug are processed in order while different bugs run in parallel, and built-in queue features like retries and a DLQ are used as-is. That said, the `MessageDeduplicationId` currently includes a timestamp, which effectively disables deduplication — an issue I have identified and still need to fix.',
             },
             { type: 'heading', text: 'Process Flow' },
             {
@@ -245,7 +245,7 @@ const career: ICareer.Payload = {
               items: [
                 'Queue thrashing — all Workers repeatedly pull and re-push messages, causing queue churn to explode well beyond the actual work being done',
                 'Message starvation — because Workers other than the intended one keep pulling the message, it reaches the Worker that actually needs to process it late',
-                "Possible duplicate consumption — receiving a message from SQS isn't the same as deleting it. A received message is only hidden from other Workers for a limited time, and if a Worker decides it's not its job and re-sends the payload without deleting the original message, the original reappears on the queue once its visibility timeout expires. As a result, messages pointing to the same job can end up duplicated on the queue and delivered to different Workers at the same time",
+                "Healthy messages landing in the DLQ — when returning a message to the queue, I reset its visibility timeout to 0 rather than deleting and re-sending it, so no duplicates are created. However, this still increments the message's ApproximateReceiveCount, so as the number of Workers grows and messages are picked up by non-target Workers more often, **jobs that have never actually failed can be pushed into the DLQ by the redrive policy**",
               ],
             },
             {
