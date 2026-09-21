@@ -93,7 +93,7 @@ const career: ICareer.Payload = {
               items: [
                 'Transactional consistency — emails could be sent before the data save completed, or could already have been sent even if the save failed',
                 'Response latency — the registration API response was delayed by however long the external mail service took to respond, with the risk that registration itself would fail during a mail-service outage',
-                'Event-timing issue — since the test-taker number is only finalized in the last step of registration, sending the email too early would send it with an empty test-taker number',
+                'Event-publishing transaction issue — the test-taker number is saved to a separate table by a follow-up API, so publishing the event from the initial registration transaction meant the number still did not exist even after that commit, and the email went out with an empty value',
                 "SecurityContext loss — the SecurityContext was lost on the async call, making the currently logged-in staff member's information inaccessible",
               ],
             },
@@ -104,7 +104,7 @@ const career: ICareer.Payload = {
               items: [
                 'Transactional consistency — Introduced **@TransactionalEventListener(AFTER_COMMIT)** so the listener only runs once the data save has fully completed. If the save fails, the email-sending event never fires at all.',
                 "Response latency — Combined this with **@Async** to offload email sending to a separate thread, so it no longer affects the registration API's response time.",
-                'Event-timing issue — Moved the event-publishing point to after the final save step where the test-taker number is finalized, resolving the empty-number issue.',
+                'Event-publishing transaction issue — Since AFTER_COMMIT runs after the commit regardless of where the event is published within the transaction, the cause was not the position but **which transaction published it**. I moved the event publishing into the transaction that saves the test-taker number.',
                 "SecurityContext loss — Solved by extracting the staff member's ID on the request thread at registration time and passing it along with the event, then looking up the email address by that ID on the async thread.",
               ],
             },
