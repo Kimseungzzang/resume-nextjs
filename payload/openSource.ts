@@ -62,8 +62,7 @@ const openSource: IOpenSource.Payload = {
                 '자체 구현은 목표 1,000 req/s부터 처리량·지연 급격 저하, real Redis는 9,583 req/s(p95 284ms)까지 처리',
             },
             {
-              content:
-                'Netty 이벤트 루프 위에 RESP 프로토콜 파싱과 skip list 기반 Sorted Set을 직접 구현',
+              content: 'Netty 이벤트 루프 위에 RESP 프로토콜 파싱과 Sorted Set 명령을 직접 구현',
             },
           ],
         },

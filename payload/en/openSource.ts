@@ -76,7 +76,7 @@ const openSource: IOpenSource.Payload = {
             },
             {
               content:
-                'Built RESP protocol parsing and a skip-list-based Sorted Set on top of a Netty event loop',
+                'Built RESP protocol parsing and Sorted Set commands on top of a Netty event loop',
             },
           ],
         },
