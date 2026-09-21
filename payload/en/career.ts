@@ -218,7 +218,7 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                'I designed a DB + AWS SQS architecture that supports state tracking, failure recovery, and horizontal Worker scaling. Because it mattered that a job for the same bug never run twice, I chose an **SQS FIFO queue**, which provides deduplication and per-group ordering. `MessageGroupId` is set per bug, so jobs for the same bug are processed in order while different bugs run in parallel, and built-in queue features like retries and a DLQ are used as-is. That said, the `MessageDeduplicationId` currently includes a timestamp, which effectively disables deduplication — an issue I have identified and still need to fix.',
+                'I designed a DB + AWS SQS architecture that supports state tracking, failure recovery, and horizontal Worker scaling. Because it mattered that a job for the same bug never run twice, I chose an **SQS FIFO queue**, which provides deduplication and per-group ordering.',
             },
             { type: 'heading', text: 'Process Flow' },
             {
