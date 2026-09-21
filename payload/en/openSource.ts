@@ -59,7 +59,7 @@ const openSource: IOpenSource.Payload = {
         },
         {
           content:
-            'Empirically discovered a bug where a race condition in the entry-processing logic caused the capacity limit (1,000) to be exceeded by up to 3x (3,000). Redesigned it from "read the counter, then decide" to deciding on the return value of an atomic INCR, compensating with a DECR rollback when the cap is exceeded, so the limit holds even as instances scale out',
+            'Empirically discovered a bug where a race condition in the entry-processing logic caused the capacity limit (1,000) to be exceeded by up to 3x (3,000)',
           boldText:
             'Empirically discovered a bug where a race condition in the entry-processing logic caused the capacity limit (1,000) to be exceeded by up to 3x (3,000)',
         },
@@ -76,7 +76,7 @@ const openSource: IOpenSource.Payload = {
             },
             {
               content:
-                'Built RESP protocol parsing and a skip-list-based Sorted Set on top of a Netty event loop. I attribute the performance gap to how the Redis client handles TCP socket connections and to data-structure differences, and am currently verifying this by profiling',
+                'Built RESP protocol parsing and a skip-list-based Sorted Set on top of a Netty event loop',
             },
           ],
         },
