@@ -63,7 +63,7 @@ const openSource: IOpenSource.Payload = {
             },
             {
               content:
-                'Netty 이벤트 루프 위에 RESP 프로토콜 파싱과 skip list 기반 Sorted Set을 직접 구현. 성능 격차의 원인은 Redis client의 TCP 소켓 연결 방식과 자료구조 차이로 추정하고 있으며, 프로파일링으로 검증 중',
+                'Netty 이벤트 루프 위에 RESP 프로토콜 파싱과 skip list 기반 Sorted Set을 직접 구현',
             },
           ],
         },
