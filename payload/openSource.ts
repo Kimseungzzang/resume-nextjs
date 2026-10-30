@@ -44,7 +44,7 @@ const openSource: IOpenSource.Payload = {
       descriptions: [
         { content: 'MSA 구조와 대용량 트래픽 처리를 학습하기 위한 티케팅 프로젝트' },
         {
-          content: 'k6를 별도 머신에서 실행해 내부망으로 1만 RPS 규모의 대기열 큐 부하테스트 수행',
+          content: 'k6를 별도 머신에서 실행해 내부망으로 1만 RPS 규모의 대기열 큐 부하 테스트 수행',
         },
         {
           content:
