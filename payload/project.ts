@@ -107,6 +107,11 @@ const project: IProject.Payload = {
         },
         {
           content:
+            'QA 테스트 케이스를 Playwright(웹)·Maestro(모바일) 스크립트로 옮기고, TC 버전·실행 이력 대시보드와 DB 작업 큐·워커로 24시간 E2E 배포 검증 시스템 구축',
+          boldText: '24시간 E2E 배포 검증 시스템 구축',
+        },
+        {
+          content:
             'Swagger(OpenAPI) 기반 API 명세 조회, DB SELECT 조회, CloudWatch·Sentry 모니터링, 사내 자동화 E2E QA 서버, Notion 연동을 지원하는 MCP 서버 개발',
           boldText: 'MCP 서버 개발',
           descriptions: [
@@ -118,7 +123,16 @@ const project: IProject.Payload = {
           ],
         },
       ],
-      skillKeywords: ['Spring Boot', 'Discord Bot', 'Claude CLI', 'SQS', 'Notion', 'NestJS'],
+      skillKeywords: [
+        'Spring Boot',
+        'Discord Bot',
+        'Claude CLI',
+        'SQS',
+        'Notion',
+        'NestJS',
+        'Playwright',
+        'Maestro',
+      ],
     },
     {
       title: '레이저 피난 유도기 실시간 관제 시스템',

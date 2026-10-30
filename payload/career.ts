@@ -4,6 +4,7 @@ import snsb3EmailArchitecture from '../asset/career/snsb3-email-architecture.png
 import snsb3AppPerformance from '../asset/career/snsb3-app-performance.png';
 import mcpServerArchitecture from '../asset/career/mcp-server-architecture.png';
 import bugPipelineArchitecture from '../asset/career/bug-pipeline-architecture.png';
+import e2eQaArchitecture from '../asset/career/e2e-qa-architecture.png';
 import laserSystemArchitecture from '../asset/career/laser-system-architecture.png';
 import snsb3IntegrationBefore from '../asset/career/snsb3-integration-before.png';
 import snsb3IntegrationAfter from '../asset/career/snsb3-integration-after.png';
@@ -464,6 +465,35 @@ const career: ICareer.Payload = {
               type: 'image',
               src: bugPipelineArchitecture,
               alt: '버그 리포트 자동 처리 파이프라인',
+            },
+          ],
+        },
+        {
+          title: '사내 인프라 — 배포 검증·장애 추적 자동화',
+          skillKeywords: ['NestJS', 'PostgreSQL', 'Playwright', 'Maestro'],
+          role: '설계 · 구현',
+          blocks: [
+            { type: 'heading', text: '문제 상황' },
+            {
+              type: 'list',
+              items: [
+                '배포마다 QA가 작성한 테스트 케이스를 개발자가 직접 실행해야 하는 일이 늘어 개발 시간 잠식. 소규모 팀 인원으로 QA에 병목',
+                '테스트 케이스가 이력으로 남지 않아 매 배포마다 검증을 0에서 시작',
+              ],
+            },
+            { type: 'heading', text: '해결 방법' },
+            {
+              type: 'list',
+              items: [
+                'QA가 만든 테스트 케이스를 Playwright(웹)·Maestro(모바일) 스크립트로 옮김. Flutter 통합 테스트는 OS 권한 팝업(카메라·마이크)을 넘기지 못해 앱을 프로세스 밖에서 조작하는 Maestro로 감',
+                'TC 버전·실행 이력 스키마(versions · testcases · runs · run_results · run_logs)를 직접 모델링하고 상태 관리 대시보드 개발. 대시보드에 주기를 등록하면 자동으로 도는 **24시간 E2E 시스템**',
+                '실행 요청과 실제 실행은 분리하되 호출량이 낮아 별도 메시지 큐 대신 DB를 작업 큐로 두고 워커가 폴링. 검증 환경 게이트로 운영 직배포 차단',
+              ],
+            },
+            {
+              type: 'image',
+              src: e2eQaArchitecture,
+              alt: '배포 검증 자동화: 테스트 케이스 등록부터 결과 공유까지',
             },
           ],
         },
