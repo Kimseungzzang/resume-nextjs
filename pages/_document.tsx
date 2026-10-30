@@ -20,7 +20,14 @@ export default class ResumeDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Parisienne&display=swap"
             rel="stylesheet"
           />
-          <style>{`
+          {/*
+            CSS 를 JSX 자식 텍스트로 넣으면 React 가 > 와 ' 를 &gt; / &#x27; 로 이스케이프해
+            해당 선택자 규칙이 통째로 무시된다. 그대로 출력되도록 innerHTML 로 넣는다.
+          */}
+          <style
+            // eslint-disable-next-line react/no-danger
+            dangerouslySetInnerHTML={{
+              __html: `
             @media print {
               /*
                 margin 을 0으로 주면 Chrome 이 자체적으로 붙이는 인쇄 머리말/꼬리말
@@ -39,13 +46,12 @@ export default class ResumeDocument extends Document {
                 box-decoration-break: clone;
                 -webkit-box-decoration-break: clone;
               }
-              /* 제목만 페이지 끝에 남고 본문이 다음 페이지로 넘어가지 않게 한다. */
-              h1,
-              h2,
-              h3,
-              h4,
-              h5,
-              h6,
+              /*
+                제목만 페이지 끝에 남고 본문이 다음 페이지로 넘어가지 않게 한다.
+                메인 페이지처럼 그리드 칸(col) 안에 있는 제목에 걸면 Chrome 이 섹션 전체를
+                다음 페이지로 밀어 버리므로, 칸 밖의 제목에만 적용한다.
+              */
+              :is(h1, h2, h3, h4, h5, h6):not([class*='col'] > *),
               h4 + *,
               h4 + * + *,
               .pb-3.row {
@@ -124,7 +130,9 @@ export default class ResumeDocument extends Document {
                 text-align: right !important;
               }
             }
-          `}</style>
+          `,
+            }}
+          />
         </Head>
         <body>
           <Main />
