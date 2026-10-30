@@ -48,7 +48,7 @@ const openSource: IOpenSource.Payload = {
         },
         {
           content:
-            '입장 처리 로직의 레이스 컨디션으로 수용 한도(1,000명)를 3배(3,000명)까지 초과하는 버그를 실측 발견. 카운터를 읽고 판정하던 방식을 원자적 INCR의 반환값으로 판정하고 한도 초과 시 DECR로 보상 롤백하는 구조로 재설계해, 인스턴스가 늘어나도 한도 초과가 발생하지 않도록 확보',
+            '입장 처리 로직의 레이스 컨디션으로 수용 한도(1,000명)를 3배(3,000명)까지 초과하는 버그를 실측 발견',
           boldText: '수용 한도(1,000명)를 3배(3,000명)까지 초과하는 버그를 실측 발견',
         },
         {
@@ -62,8 +62,7 @@ const openSource: IOpenSource.Payload = {
                 '자체 구현은 목표 1,000 req/s부터 처리량·지연 급격 저하, real Redis는 9,583 req/s(p95 284ms)까지 처리',
             },
             {
-              content:
-                'Netty 이벤트 루프 위에 RESP 프로토콜 파싱과 skip list 기반 Sorted Set을 직접 구현',
+              content: 'Netty 이벤트 루프 위에 RESP 프로토콜 파싱과 Sorted Set 명령을 직접 구현',
             },
           ],
         },

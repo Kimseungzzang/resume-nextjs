@@ -42,7 +42,7 @@ const project: IProject.Payload = {
         { content: 'Built a tablet app for examiners to administer and score the test' },
         {
           content:
-            'Cut duplicate API calls on test entry from 28 to 1 by introducing a shell-init aggregate API and switching to lazy widget building',
+            'Consolidated test-entry data into a single API and deferred screen creation, reducing initial API calls from 28 to 1',
         },
       ],
       skillKeywords: ['Flutter'],
