@@ -2,7 +2,7 @@ import { ISkill } from '../component/skill/ISkill';
 
 const backend: ISkill.Skill = {
   category: 'Backend',
-  items: [{ title: 'Spring Boot' }, { title: 'Nest.js' }, { title: 'Kotlin' }, { title: 'Java' }],
+  items: [{ title: 'Spring Boot' }, { title: 'NestJS' }, { title: 'Kotlin' }, { title: 'Java' }],
 };
 
 const frontend: ISkill.Skill = {
@@ -23,13 +23,12 @@ const infraDevOps: ISkill.Skill = {
     { title: 'SQS' },
     { title: 'SNS' },
     { title: 'Docker Compose' },
-    { title: 'Terraform' },
   ],
 };
 
 const etc: ISkill.Skill = {
   category: '기타',
-  items: [{ title: 'MCP' }, { title: 'AI Harness' }],
+  items: [{ title: 'MCP' }],
 };
 
 const skill: ISkill.Payload = {

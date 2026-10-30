@@ -24,10 +24,17 @@ const career: ICareer.Payload = {
       positionTitle: '개발자',
       projects: [
         {
-          title: 'SNSB3 표준화 채점 프로그램 — STD/CMS 통합 리팩토링 및 마이그레이션 왕복 리허설',
+          title:
+            'SNSB 검사 플랫폼 — 표준화(STD)·일반(CMS) 서비스 통합 리팩토링 및 DB 마이그레이션 dry-run 자동화',
           skillKeywords: ['Spring Boot', 'Spring Security', 'QueryDSL', 'Flyway', 'ArchUnit'],
           role: '구조 설계 · 리팩토링 · 데이터 이관 검증',
           blocks: [
+            { type: 'heading', text: '서비스 정의' },
+            {
+              type: 'paragraph',
+              text:
+                'SNSB 검사 플랫폼은 치매 진단을 위한 표준화 신경심리검사(SNSB)를 서비스하는 플랫폼으로, 하나의 백엔드 서버가 표준화 웹·일반(CMS) 웹·태블릿 검사 앱·관리자 웹을 함께 서비스합니다. 검사자가 수검자를 직접 검사할 때는 앱을, 검사 결과만 입력할 때는 웹을 씁니다. 그중 표준화 웹은 전국 임상 전공 대학생 검사자들이 검사 결과를 입력하는 데이터 수집 웹으로, 대규모 임상 데이터 축적을 목적으로 구축됐습니다.',
+            },
             { type: 'heading', text: '문제 상황' },
             {
               type: 'paragraph',
@@ -45,7 +52,7 @@ const career: ICareer.Payload = {
               ordered: true,
               items: [
                 '두 축 분리 — STD·CMS와 검사 종류를 서로 다른 축으로 떼어 냈습니다. 검사자·수검자·기관은 **공통 인터페이스와 요청·응답 DTO를 함께 쓰고**, 수검자 번호 규칙·권한처럼 STD·CMS별로 다른 규칙만 구현체가 갖게 했습니다.',
-                '출처 구분 — 사람(검사자·수검자·기관)은 출처마다 테이블과 규칙이 달라 엔드포인트를 나눴고(/std/examinee, /cms/examinee), 로그인 시 **JWT source 클레임**에 출처를 넣어 컨트롤러 클래스 단위 @PreAuthorize로 다른 출처 호출을 막았습니다. 검사는 두 출처가 같은 테이블을 쓰므로 엔드포인트를 /tests 하나로 두고, source 값에 따라 QueryDSL로 조인할 사람 테이블만 바꿔 끼웠습니다.',
+                '서비스 구분 — 사람(검사자·수검자·기관)은 STD·CMS마다 테이블과 규칙이 달라 엔드포인트를 나눴고(/std/examinee, /cms/examinee), 로그인 시 **JWT source 클레임**에 어느 서비스로 로그인했는지 넣어 컨트롤러 클래스 단위 @PreAuthorize로 다른 서비스 호출을 막았습니다. 검사는 두 서비스가 같은 테이블을 쓰므로 엔드포인트를 /tests 하나로 두고, source 값에 따라 QueryDSL로 조인할 사람 테이블만 바꿔 끼웠습니다.',
                 '경계 고정 — STD와 CMS 코드가 서로를 참조하면 빌드가 깨지도록 **ArchUnit** 테스트를 PR마다 CI에서 돌게 했습니다.',
               ],
             },
@@ -54,7 +61,7 @@ const career: ICareer.Payload = {
               src: snsb3IntegrationAfter,
               alt: '개선 후: STD·CMS 축과 검사 종류 축을 나눴다',
             },
-            { type: 'heading', text: '데이터 이관 검증 — 마이그레이션 왕복 리허설' },
+            { type: 'heading', text: '데이터 이관 검증 — DB 마이그레이션 dry-run 자동화' },
             {
               type: 'paragraph',
               text:
@@ -63,13 +70,13 @@ const career: ICareer.Payload = {
             {
               type: 'image',
               src: snsb3MigrationRehearsal,
-              alt: '마이그레이션 왕복 리허설 흐름',
+              alt: 'DB 마이그레이션 dry-run 흐름',
             },
             {
               type: 'list',
               items: [
                 '**실제 결함 1건 발견** — V10 롤백이 보관 테이블을 CREATE TABLE AS로 만들고 있어, "롤백 → 재적용 → 다시 롤백" 순서에서 두 번째 롤백이 already exists로 실패했습니다. 보관 테이블은 처음 한 번만 만들고 이후에는 이어 쌓도록 고쳤습니다.',
-                '리허설이 결함을 제대로 잡는지는 롤백 한 줄을 일부러 빼면 1,417행이 다르다고 알리며 실패하는 것으로 확인했습니다.',
+                'dry-run이 결함을 제대로 잡는지는 롤백 한 줄을 일부러 빼면 1,417행이 다르다고 알리며 실패하는 것으로 확인했습니다.',
               ],
             },
             { type: 'heading', text: '결과' },
@@ -77,14 +84,14 @@ const career: ICareer.Payload = {
               type: 'list',
               items: [
                 '엔드포인트 **140개 → 87개**(38%↓), 같은 기능을 하는 중복 클래스 **29개 → 0개**',
-                '마이그레이션 왕복 리허설 **13개 버전 일치**, 롤백 결함 1건을 운영 전에 발견 (개발 서버 데이터 복제본 기준)',
+                'DB 마이그레이션 dry-run **13개 버전 일치**, 롤백 결함 1건을 운영 전에 발견 (개발 서버 데이터 복제본 기준)',
                 '바뀐 API 계약에 맞춰 앱·웹 클라이언트도 함께 수정',
               ],
             },
           ],
         },
         {
-          title: 'SNSB3 표준화 채점 프로그램 — Transactional Outbox로 변경 이력 유실 해결',
+          title: 'SNSB 검사 플랫폼 — Transactional Outbox로 변경 이력 유실 해결',
           skillKeywords: ['Spring Boot', 'PostgreSQL', 'AWS S3', 'k6'],
           role: '설계 · 구현 · 부하 검증',
           blocks: [
@@ -113,7 +120,7 @@ const career: ICareer.Payload = {
               ordered: true,
               items: [
                 '같은 트랜잭션에 기록 — 이력을 원래 트랜잭션 안에서 아웃박스 테이블에 INSERT해, **변경이 롤백되면 이력도 롤백되고 커밋되면 함께 남게** 했습니다.',
-                '저장소는 S3 — 앱이 읽지 않는 감사 로그가 이미 DB의 72%를 차지했고, DB에 있는 한 DB 권한만으로 고치거나 지울 수 있었습니다. Object Lock·권한 분리·Glacier·Athena 조회를 위해 S3를 골랐고, DB와 한 트랜잭션으로 묶을 수 없는 **이기종 저장소**라 아웃박스에 남긴 뒤 옮기는 구조로 정했습니다. 저장이 초당 3건 남짓(1,600대 이관 가정)이라 Kafka 대신 이미 쓰는 PostgreSQL을 큐로 썼습니다.',
+                '저장소는 S3 — 앱이 읽지 않는 감사 로그가 이미 DB의 72%를 차지했고, DB에 있는 한 DB 권한만으로 고치거나 지울 수 있었습니다. Object Lock·권한 분리·Glacier·Athena 조회를 위해 S3를 골랐고, DB와 한 트랜잭션으로 묶을 수 없는 **이기종 저장소**라 아웃박스에 남긴 뒤 옮기는 구조로 정했습니다. 저장이 초당 3건 남짓(기존 PC용 SNSB-II 검사 프로그램 약 1,600대가 옮겨 온다고 가정)이라 Kafka 대신 이미 쓰는 PostgreSQL을 큐로 썼습니다.',
                 '전달은 별도 이력 서비스 — 앱 안에서 읽으면 다시 요청과 커넥션을 나눠 쓰게 되어, 새 서버 없이 기존 EC2에 별도 서비스를 올렸습니다. 아웃박스를 **SKIP LOCKED**로 나눠 가져가 S3(JSON Lines·gzip)에 올리고, 성공한 행만 지웁니다.',
                 '실패 처리 — 묶음이 실패하면 한 건씩 다시 올리고, **같은 묶음의 뒤 행이 성공했을 때만** 실패 행을 DLT로 보내 S3 장애와 불량 행을 구분했습니다. 연속 실패는 장애로 보고 1~60초 **지수 백오프**로 재시도하며, graceful shutdown으로 진행 중인 묶음을 마치고 종료합니다. 업로드 후 행 삭제 전에 죽어 생길 수 있는 중복은 **event_id**로 읽을 때 걸러 멱등성을 지켰습니다.',
               ],
@@ -127,7 +134,7 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                'S3 파일을 전부 읽어 커밋된 변경 수와 맞춰 봤습니다. 1,600대가 모두 옮겨 온 날을 가정해 목표 부하를 동시 900명으로 세우고, k6로 실제 검사 흐름을 50분 동안 재현했습니다.',
+                'S3 파일을 전부 읽어 커밋된 변경 수와 맞춰 봤습니다. PC용 검사 프로그램 1,600대가 모두 옮겨 온 날을 가정해 목표 부하를 동시 900명으로 세우고, k6로 실제 검사 흐름을 50분 동안 재현했습니다.',
             },
             {
               type: 'list',
@@ -142,7 +149,7 @@ const career: ICareer.Payload = {
           ],
         },
         {
-          title: 'SNSB3 표준화 채점 프로그램 — 수검자 삭제 API OOM 장애 원인 규명 및 성능 개선',
+          title: 'SNSB 검사 플랫폼 — 수검자 삭제 API OOM 위험 예측 및 성능 개선',
           skillKeywords: ['Spring Boot', 'JPA', 'QueryDSL', 'PostgreSQL', 'k6'],
           role: '부하 테스트 설계부터 원인 분석·개선·검증까지 단독 진행',
           blocks: [
@@ -176,7 +183,7 @@ const career: ICareer.Payload = {
               items: [
                 '**EXPLAIN만으로는 보이지 않는 병목** — 검사 10만 행 전체 스캔은 DB에서 17ms였지만, 같은 삭제가 앱에서는 600ms와 메모리 566MB를 썼습니다. 병목은 DB가 아니라 JVM이 10만 행을 엔티티로 만들고 변경 감지용 사본까지 들고 있는 비용이었습니다.',
                 '**동시 요청에서 서버 전체 장애** — 요청마다 테이블 전체 로드가 따로 일어나, 검사 5만 행에서 삭제 요청 10건이 몰리자 GC만 반복하다 OOM이 났고 그동안 삭제와 무관한 API도 거의 응답하지 못했습니다.',
-                '**장애 한계를 식으로 계산** — GC 로그에서 Full GC 뒤에도 요청 하나가 행마다 붙잡는 메모리를 구해 "앱 기본 사용량(약 58MB) + 동시 삭제 수 × 검사 행 수 × 약 2.6KB ≥ 힙(약 989MB) → 장애"라는 식을 세웠습니다. 식이 예측한 1명 삭제 한계는 약 36만 행이었고, 실측에서 **35만 행은 버티고 37.5만 행에서 OOM**이 나 식과 맞았습니다. SNSB-II PM 1,600대가 옮겨 오면 검사 테이블이 1년에 약 35만 행씩 늘어 **약 1년이면 1명 삭제로도 장애**가 난다는 것을 근거로 개선을 진행했습니다.',
+                '**장애 한계를 식으로 계산** — GC 로그에서 Full GC 뒤에도 요청 하나가 행마다 붙잡는 메모리를 구해 "앱 기본 사용량(약 58MB) + 동시 삭제 수 × 검사 행 수 × 약 2.6KB ≥ 힙(약 989MB) → 장애"라는 식을 세웠습니다. 식이 예측한 1명 삭제 한계는 약 36만 행이었고, 실측에서 **35만 행은 버티고 37.5만 행에서 OOM**이 나 식과 맞았습니다. 기존 PC용 SNSB-II 검사 프로그램 약 1,600대가 이 플랫폼으로 옮겨 오면 검사 테이블이 1년에 약 35만 행씩 늘어 **약 1년이면 1명 삭제로도 장애**가 난다는 것을 근거로 개선을 진행했습니다.',
               ],
             },
             { type: 'heading', text: '해결 방법 — 효과를 나눠 보기 위해 2단계로 개선' },
@@ -216,21 +223,15 @@ const career: ICareer.Payload = {
           ],
         },
         {
-          title: 'SNSB3 표준화 채점 프로그램 — 수검자 현황 대시보드 개발',
+          title: 'SNSB 검사 플랫폼 — 표준화 웹 수검자 현황 대시보드 개발',
           skillKeywords: ['Spring Boot', 'PostgreSQL'],
           role: '2인 팀 합류 · 수검자 대시보드 파트 단독 담당',
           blocks: [
-            { type: 'heading', text: '서비스 정의' },
-            {
-              type: 'paragraph',
-              text:
-                'SNSB3는 치매 진단을 위한 표준화 신경심리검사 도구입니다. 전국 임상 전공 대학생들이 수검자를 직접 검사하고 결과를 입력·채점하는 웹 기반 데이터 수집 플랫폼으로, 대규모 임상 데이터 축적을 목적으로 구축됐습니다.',
-            },
             { type: 'heading', text: '문제 상황' },
             {
               type: 'paragraph',
               text:
-                'SNSB3 검사는 나이대·성별·교육년수별로 수집해야 하는 수검자 수가 사전에 정해져 있습니다. 좌석 예매처럼 각 그룹마다 정원이 고정되어 있어, 해당 정원을 초과하면 데이터 편향이 생기므로 초과 등록을 반드시 차단해야 했습니다.',
+                'SNSB-III 표준화 검사는 나이대·성별·교육 연수별로 수집해야 하는 수검자 수가 사전에 정해져 있습니다. 좌석 예매처럼 각 그룹마다 정원이 고정되어 있어, 해당 정원을 초과하면 데이터 편향이 생기므로 초과 등록을 반드시 차단해야 했습니다.',
             },
             {
               type: 'paragraph',
@@ -271,16 +272,10 @@ const career: ICareer.Payload = {
           ],
         },
         {
-          title: 'SNSB3 표준화 채점 프로그램 — 이메일 발송 아키텍처 설계',
+          title: 'SNSB 검사 플랫폼 — 이메일 발송 아키텍처 설계',
           skillKeywords: ['Spring Boot', 'AWS SES', 'Thymeleaf'],
           role: '2인 팀 합류 · 이메일 발송 아키텍처 파트 단독 담당',
           blocks: [
-            { type: 'heading', text: '서비스 정의' },
-            {
-              type: 'paragraph',
-              text:
-                'SNSB3는 치매 진단을 위한 표준화 신경심리검사 도구입니다. 전국 임상 전공 대학생들이 수검자를 직접 검사하고 결과를 입력·채점하는 웹 기반 데이터 수집 플랫폼으로, 대규모 임상 데이터 축적을 목적으로 구축됐습니다.',
-            },
             { type: 'heading', text: '문제 상황' },
             {
               type: 'paragraph',
@@ -292,7 +287,7 @@ const career: ICareer.Payload = {
               items: [
                 '트랜잭션 정합성 — 데이터 저장이 완료되기 전에 메일이 발송되거나, 저장 실패 시에도 메일이 이미 발송되는 문제',
                 '응답 지연 — 외부 메일 서비스 응답 시간만큼 수검자 등록 API 응답이 지연되고, 메일 서비스 장애 시 등록 자체가 실패할 위험',
-                '이벤트 발행 트랜잭션 문제 — 수검자 번호는 별도 테이블에 후속 API로 저장되는 구조라, 최초 등록 트랜잭션에서 이벤트를 발행하면 커밋 후에도 수검번호가 아직 존재하지 않아 빈 값으로 발송됨',
+                '이벤트 발행 트랜잭션 문제 — 수검자 번호는 별도 테이블에 후속 API로 저장되는 구조라, 최초 등록 트랜잭션에서 이벤트를 발행하면 커밋 후에도 수검자 번호가 아직 존재하지 않아 빈 값으로 발송됨',
                 'SecurityContext 유실 — 비동기 호출 시 SecurityContext가 유실되어 현재 로그인한 담당자 정보 접근 불가',
               ],
             },
@@ -303,7 +298,7 @@ const career: ICareer.Payload = {
               items: [
                 '트랜잭션 정합성 — **@TransactionalEventListener(AFTER_COMMIT)**를 도입해, 데이터 저장이 완전히 완료된 시점에만 리스너가 실행되도록 했습니다. 저장에 실패하면 메일 발송 이벤트 자체가 실행되지 않습니다.',
                 '응답 지연 — 여기에 **@Async**를 결합해 메일 발송을 별도 스레드에서 처리하도록 분리해, 메일 발송이 수검자 등록 응답 속도에 영향을 주지 않게 했습니다.',
-                '이벤트 발행 트랜잭션 문제 — AFTER_COMMIT은 트랜잭션 내 발행 위치와 무관하게 커밋 후 실행되므로, 위치가 아니라 **어느 트랜잭션에서 발행하는지**가 원인이었습니다. 이벤트 발행을 수검번호가 저장되는 트랜잭션으로 옮겨 해결했습니다.',
+                '이벤트 발행 트랜잭션 문제 — AFTER_COMMIT은 트랜잭션 내 발행 위치와 무관하게 커밋 후 실행되므로, 위치가 아니라 **어느 트랜잭션에서 발행하는지**가 원인이었습니다. 이벤트 발행을 수검자 번호가 저장되는 트랜잭션으로 옮겨 해결했습니다.',
                 'SecurityContext 유실 — 등록 시점(요청 스레드)에 담당자 ID를 미리 추출해 이벤트에 함께 전달하고, 비동기 스레드에서는 이 ID로 이메일 주소를 조회하는 방식으로 해결했습니다.',
               ],
             },
@@ -330,7 +325,7 @@ const career: ICareer.Payload = {
           ],
         },
         {
-          title: 'SNSB3 앱 — 검사 진입 성능 개선',
+          title: 'SNSB 검사 앱 — 검사 진입 성능 개선',
           skillKeywords: ['Flutter', 'Dart'],
           role: '1차 완성 앱 인수 후 전체 리팩토링 및 성능 개선 단독 진행',
           blocks: [
@@ -338,7 +333,7 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                '기존에 검사지와 펜으로 진행하던 SNSB3 검사를 태블릿 앱으로 대체한 서비스입니다. 수검자가 앱에서 직접 검사를 진행하고 채점까지 가능하며, 웹 채점 프로그램과 동일한 백엔드 API를 공유합니다.',
+                '기존에 검사지와 펜으로 진행하던 SNSB-III 검사를 태블릿으로 진행하는 검사자용 앱입니다. 검사자가 앱으로 수검자를 직접 검사하고 채점까지 하며, 검사 결과만 입력하는 표준화 웹·일반(CMS) 웹과 같은 백엔드 API를 씁니다.',
             },
             { type: 'heading', text: '문제 상황' },
             {
@@ -365,7 +360,7 @@ const career: ICareer.Payload = {
             {
               type: 'image',
               src: snsb3AppPerformance,
-              alt: '검사 화면 진입 성능: 개선 전 vs 후',
+              alt: '검사 화면 진입: 중복 호출을 하나로, 빌드는 필요할 때만',
             },
           ],
         },
@@ -404,7 +399,7 @@ const career: ICareer.Payload = {
         },
         {
           title: '사내 인프라 — Notion-Discord-AI 버그 자동 처리 파이프라인',
-          skillKeywords: ['Nest.js', 'AWS SQS', 'Discord Bot', 'Notion API'],
+          skillKeywords: ['NestJS', 'AWS SQS', 'Discord Bot', 'Notion API'],
           role: '1인 단독 설계·구현',
           blocks: [
             { type: 'heading', text: '문제 상황' },
@@ -427,7 +422,7 @@ const career: ICareer.Payload = {
                 'Notion DB를 60초 주기로 Polling해 신규·변경 버그 감지 → Discord 채널에 즉시 알림',
                 'Discord 메시지에 Repository 선택·AI Provider 선택·AI 해결 버튼 인터랙션 제공',
                 '버튼 클릭 시 Backend가 SQS에 작업을 enqueue, AI Worker가 polling 후 처리',
-                'AI Worker는 선택한 Provider(Claude / Gemini / Codex)에 맞는 CLI 명령어를 조합해 선택한 Repository 경로에서 비대화형으로 실행. QA팀이 정해진 양식(문제 상황·재현 단계·예상 결과·실제 결과)으로 작성한 노션 버그 리포트를 파싱해 프롬프트로 구성한 뒤 넘겨줌',
+                'AI Worker는 선택한 Provider(Claude / Gemini / Codex)에 맞는 CLI 명령어를 조합해 선택한 Repository 경로에서 비대화형으로 실행. QA팀이 정해진 양식(문제 상황·재현 단계·예상 결과·실제 결과)으로 작성한 Notion 버그 리포트를 파싱해 프롬프트로 구성한 뒤 넘겨줌',
               ],
             },
             { type: 'heading', text: '한계점 및 개선 방향 — SQS Queue Thrashing' },
