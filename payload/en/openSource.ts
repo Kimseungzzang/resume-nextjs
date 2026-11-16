@@ -4,6 +4,28 @@ const openSource: IOpenSource.Payload = {
   disable: false,
   list: [
     {
+      title: 'Trading Gym — AI Investment Coaching Agent',
+      descriptions: [
+        {
+          content:
+            'Entry for the 2026 Financial AI Challenge (Beyond Imagination, Into Reality: The Future of Finance Powered by AI)',
+          boldText: '2026 Financial AI Challenge',
+        },
+        {
+          content:
+            'An investing-education service where users experience risks like leverage and forced liquidation in advance through mock trading on real market prices, and AI diagnoses their trading habits and links them to tailored learning and another attempt',
+        },
+        {
+          content:
+            "Built a RAG knowledge base from public financial-education materials such as the Financial Supervisory Service's e-Financial Education Center, providing an AI chat that cites its sources and personalized quizzes based on the diagnosis",
+        },
+        {
+          content: 'github.com/ghals5737/trading-gym',
+          href: 'https://github.com/ghals5737/trading-gym',
+        },
+      ],
+    },
+    {
       title: 'AI Autonomous Trading System',
       descriptions: [
         {

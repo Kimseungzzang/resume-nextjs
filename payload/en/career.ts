@@ -5,6 +5,16 @@ import snsb3AppPerformance from '../../asset/career/snsb3-app-performance.png';
 import mcpServerArchitecture from '../../asset/career/mcp-server-architecture.png';
 import bugPipelineArchitecture from '../../asset/career/bug-pipeline-architecture.png';
 import laserSystemArchitecture from '../../asset/career/laser-system-architecture.png';
+import e2eQaArchitecture from '../../asset/career/e2e-qa-architecture.png';
+import snsb3IntegrationBefore from '../../asset/career/snsb3-integration-before.png';
+import snsb3IntegrationAfter from '../../asset/career/snsb3-integration-after.png';
+import snsb3MigrationRehearsal from '../../asset/career/snsb3-migration-rehearsal.png';
+import snsb3HistoryBefore from '../../asset/career/snsb3-history-before.png';
+import snsb3HistoryAfter from '../../asset/career/snsb3-history-after.png';
+import snsb3ExamineeDeleteBefore from '../../asset/career/snsb3-examinee-delete-before.png';
+import snsb3ExamineeDeleteAfter from '../../asset/career/snsb3-examinee-delete-after.png';
+import snsb3ExamineeDeleteConcurrency from '../../asset/career/snsb3-examinee-delete-concurrency.png';
+import snsb3ExamineeDeleteScaling from '../../asset/career/snsb3-examinee-delete-scaling.png';
 
 const career: ICareer.Payload = {
   disable: false,
@@ -15,21 +25,220 @@ const career: ICareer.Payload = {
       positionTitle: 'Developer',
       projects: [
         {
-          title: 'SNSB3 Standardized Scoring Program — Test-taker Status Dashboard',
-          skillKeywords: ['Spring Boot', 'PostgreSQL'],
-          role: 'Joined a 2-person team · solely responsible for the test-taker dashboard part',
+          title:
+            'SNSB Testing Platform — Unifying the Standardization (STD) and General (CMS) Services and Automating DB Migration Dry-Runs',
+          skillKeywords: ['Spring Boot', 'Spring Security', 'QueryDSL', 'Flyway', 'ArchUnit'],
+          role: 'Architecture design · refactoring · data migration verification',
           blocks: [
             { type: 'heading', text: 'Service Overview' },
             {
               type: 'paragraph',
               text:
-                'SNSB3 is a standardized neuropsychological test tool for dementia diagnosis. It is a web-based data collection platform where undergraduate students majoring in clinical fields nationwide directly administer tests to test-takers and enter and score the results, built to accumulate large-scale clinical data.',
+                'The SNSB Testing Platform delivers the SNSB, a standardized neuropsychological test for dementia diagnosis. A single backend server serves the standardization web, general (CMS) web, tablet test app, and admin web. Examiners use the app when they administer the test to a test-taker in person, and the web when they only enter test results. The standardization web is a data-collection site where undergraduate examiners majoring in clinical fields nationwide enter test results, built to accumulate large-scale clinical data.',
             },
             { type: 'heading', text: 'Problem' },
             {
               type: 'paragraph',
               text:
-                'The SNSB3 test has a predetermined number of test-takers that must be collected for each age group, gender, and years-of-education bucket. Like seat reservations, each group has a fixed capacity, and exceeding it would introduce data bias, so overflow registrations had to be strictly blocked.',
+                'The research standardization service (STD) supported only SNSB-III and the general service (CMS) only SNSB-II, so the STD, CMS, and admin APIs had each grown on their own — even examiner management was handled separately in three places. **The STD/CMS split was baked into the code as if it were the test-type split** ("STD = SNSB-III, CMS = SNSB-II"), so adding SNSB-III and SNSB-C to CMS would have meant building yet another copy of the same code.',
+            },
+            {
+              type: 'image',
+              src: snsb3IntegrationBefore,
+              alt: 'Original structure: the same features grew in three separate branches',
+            },
+            { type: 'heading', text: 'Solution' },
+            {
+              type: 'list',
+              ordered: true,
+              items: [
+                'Two separate axes — separated STD/CMS and test type into independent axes. Examiners, test-takers, and organizations **share common interfaces and request/response DTOs**, and only rules that differ between STD and CMS, such as test-taker numbering and permissions, live in the implementations.',
+                'Service separation — people (examiners, test-takers, organizations) have different tables and rules per service, so their endpoints were split (/std/examinee, /cms/examinee). At login, the service is put into a **JWT source claim**, and class-level @PreAuthorize on controllers blocks calls to the other service. Tests use the same table for both services, so they stay on a single /tests endpoint, and only the people table joined via QueryDSL is swapped based on the source value.',
+                'Locked-in boundaries — **ArchUnit** tests run in CI on every PR so the build breaks if STD and CMS code reference each other.',
+              ],
+            },
+            {
+              type: 'image',
+              src: snsb3IntegrationAfter,
+              alt: 'After: the STD/CMS axis and the test-type axis are separated',
+            },
+            {
+              type: 'heading',
+              text: 'Data Migration Verification — Automated DB Migration Dry-Runs',
+            },
+            {
+              type: 'paragraph',
+              text:
+                'The structural change required Flyway migrations that rewrite existing rows, and a mistake would directly corrupt test data. I turned the manual before/after comparison into a script: take a snapshot, apply and roll back, then check that **per-table row counts and row/column hashes** match the start — and if not, fail while reporting which table, column, and rows differ.',
+            },
+            {
+              type: 'image',
+              src: snsb3MigrationRehearsal,
+              alt: 'DB migration dry-run flow',
+            },
+            {
+              type: 'list',
+              items: [
+                '**Found one real defect** — the V10 rollback created its archive table with CREATE TABLE AS, so in a "roll back → re-apply → roll back again" sequence the second rollback failed with "already exists". I changed it to create the archive table only once and append to it afterward.',
+                'I confirmed the dry-run actually catches defects: deliberately removing one rollback line makes it fail, reporting 1,417 differing rows.',
+              ],
+            },
+            { type: 'heading', text: 'Results' },
+            {
+              type: 'list',
+              items: [
+                'Endpoints **140 → 87** (38% fewer), duplicate classes doing the same job **29 → 0**',
+                'DB migration dry-run **matched across 13 versions**, catching one rollback defect before production (on a copy of the dev server data)',
+                'Updated the app and web clients to the new API contract as well',
+              ],
+            },
+          ],
+        },
+        {
+          title: 'SNSB Testing Platform — Fixing Change-History Loss with a Transactional Outbox',
+          skillKeywords: ['Spring Boot', 'PostgreSQL', 'AWS S3', 'k6'],
+          role: 'Design · implementation · load verification',
+          blocks: [
+            { type: 'heading', text: 'Problem' },
+            {
+              type: 'paragraph',
+              text:
+                'Change history (audit logs) was saved after commit on a separate async thread through an in-memory queue. Load testing with the production JVM settings (Serial GC, 1GB heap) surfaced three problems.',
+            },
+            {
+              type: 'list',
+              items: [
+                'Connection contention — the history thread shared the connection pool with requests, so from 50 concurrent savers **history held 8 of the 10 connections**, and save throughput was 26–40% lower than with history turned off.',
+                "Silent loss — history that couldn't get a connection within 30 seconds vanished, leaving only a log line (2 records with 200 concurrent savers). The save request itself succeeded, so **there was no way to know history was lost**.",
+                'Loss on shutdown — force-killing the server right after deleting 10,000 test-takers **lost 8,724 of the 8,725 records** waiting in the in-memory queue.',
+              ],
+            },
+            {
+              type: 'image',
+              src: snsb3HistoryBefore,
+              alt: 'Original structure: history saved on a separate async thread after commit',
+            },
+            { type: 'heading', text: 'Solution' },
+            {
+              type: 'list',
+              ordered: true,
+              items: [
+                'Record in the same transaction — history is INSERTed into an outbox table inside the original transaction, so **if the change rolls back, so does the history, and if it commits, the history stays with it**.',
+                "S3 as the store — audit logs the app never reads already took up 72% of the DB, and as long as they lived in the DB, anyone with DB access could modify or delete them. I chose S3 for Object Lock, permission separation, Glacier, and Athena queries; since it's a **heterogeneous store** that can't share a transaction with the DB, history is kept in the outbox and moved afterward. At just over 3 saves per second (assuming about 1,600 installations of the legacy PC-based SNSB-II test program migrate over), I used our existing PostgreSQL as the queue instead of Kafka.",
+                'Delivery by a separate history service — reading the outbox inside the app would again share connections with requests, so I deployed a separate service on an existing EC2 instance without adding a server. It claims outbox rows in batches with **SKIP LOCKED**, uploads them to S3 (JSON Lines, gzip), and deletes only the rows that succeeded.',
+                'Failure handling — when a batch fails, rows are retried one by one, and a failed row goes to the DLT **only if a later row in the same batch succeeded**, distinguishing an S3 outage from a bad row. Consecutive failures are treated as an outage and retried with 1–60s **exponential backoff**, and graceful shutdown finishes the in-flight batch before exiting. Duplicates that can occur if the service dies after uploading but before deleting rows are filtered by **event_id** at read time, keeping processing idempotent.',
+              ],
+            },
+            {
+              type: 'image',
+              src: snsb3HistoryAfter,
+              alt: 'After: outbox in the same transaction + separate delivery',
+            },
+            { type: 'heading', text: 'Results' },
+            {
+              type: 'paragraph',
+              text:
+                'I read every S3 file and reconciled it against the number of committed changes. Assuming the day all 1,600 installations of the PC test program have migrated, I set the target load at 900 concurrent users and reproduced the real test flow with k6 for 50 minutes.',
+            },
+            {
+              type: 'list',
+              items: [
+                'Loss under failure — connection-wait timeout 2 → **0**, forced server kill 8,724 → **0**, S3 down for 30s and history service kill -9 → **0** (1,037 / 1,037)',
+                'Target load (k6, 900 users, 50 min) — **zero** history loss, save p95 **10ms**, 1 of 10 DB connections in use',
+                'Traced 1 failure out of 39,523 requests to a race between Tomcat keep-alive and the ALB idle timeout (60s), and changed keep-alive to **75s**',
+                'Under the worst case of 200 users saving back-to-back, a heap dump showed request threads holding parsed rawData JSON trees (2.2MB → ~13MB) while waiting for connections; comparing 1/2/3GB heaps, I settled on a **2GB heap** (throughput 47 → 115 saves/s, zero failures)',
+                'Fixed and released an OOM in the history service found during measurement (loading large history batches all at once) by checking row size first and splitting reads',
+              ],
+            },
+          ],
+        },
+        {
+          title:
+            'SNSB Testing Platform — Predicting the OOM Risk of the Test-taker Delete API and Improving Performance',
+          skillKeywords: ['Spring Boot', 'JPA', 'QueryDSL', 'PostgreSQL', 'k6'],
+          role:
+            'Solely carried out everything from load-test design to root-cause analysis, fix, and verification',
+          blocks: [
+            { type: 'heading', text: 'Problem' },
+            {
+              type: 'paragraph',
+              text:
+                "Deleting a test-taker must also soft-delete that test-taker's test records, but the existing code **loaded the entire test table as entities and filtered the targets in memory** (findAll, then filter). With only 4,000 rows in the production test table, the problem hadn't surfaced yet, but the cost of a delete scaled with the size of the test table rather than the number of people deleted.",
+            },
+            {
+              type: 'image',
+              src: snsb3ExamineeDeleteBefore,
+              alt: 'Original delete: reads the whole table even to delete one person',
+            },
+            { type: 'heading', text: 'Load Test Design' },
+            {
+              type: 'paragraph',
+              text:
+                'To answer with numbers when it would break, rather than "someday", I ran the server with the production JVM settings (**1GB heap, Serial GC**) and measured in two stages while growing the test table from 4,000 to 375,000 rows.',
+            },
+            {
+              type: 'list',
+              items: [
+                'Service stage — called the service method directly in integration tests and measured query and entity-load counts with Hibernate Statistics, per-thread allocated memory, and full table scans with pg_stat_user_tables (for root-cause analysis)',
+                'HTTP stage — sent single and concurrent requests to the delete API with k6 while collecting the response times of another API (test-taker list) and GC logs at the same time (to see the production impact)',
+              ],
+            },
+            { type: 'heading', text: 'Root-Cause Analysis' },
+            {
+              type: 'list',
+              items: [
+                "**A bottleneck EXPLAIN alone doesn't show** — a full scan of 100K test rows took 17ms in the DB, but the same delete took 600ms and 566MB of memory in the app. The bottleneck wasn't the DB but the JVM turning 100K rows into entities and keeping copies of each for dirty checking.",
+                '**Whole-server outage under concurrency** — each request loaded the whole table separately, so 10 concurrent deletes at 50K test rows led to repeated GC and then an OOM, during which even unrelated APIs barely responded.',
+                '**Calculating the failure threshold** — from the GC logs, I measured the memory each request still held per row after a Full GC and derived the formula "app baseline (~58MB) + concurrent deletes × test rows × ~2.6KB ≥ heap (~989MB) → failure". It predicted a single-delete limit of about 360K rows, and measurements matched: **350K rows held, 375K rows hit an OOM**. Since migrating about 1,600 installations of the legacy PC-based SNSB-II test program would grow the test table by about 350K rows a year, I made the fix on the grounds that **within about a year even a single delete would cause an outage**.',
+              ],
+            },
+            { type: 'heading', text: 'Solution — Two Stages to Isolate Each Effect' },
+            {
+              type: 'list',
+              ordered: true,
+              items: [
+                "Stage 1: remove the full-table load — query only the deleted test-takers' tests with a DB condition (examinee_id IN) so the existing index is used. Memory and time became independent of the test table size, but entities were still loaded and updated row by row through dirty checking, so the query count (5N+1) didn't drop.",
+                'Stage 2: bulk UPDATE — replaced it with one existence-check query plus two QueryDSL bulk UPDATEs, **fixing the queries per request at 3 regardless of how many are deleted** (excluding the history INSERT). Bulk UPDATEs bypass the JPA auditing listeners (@LastModifiedDate, @LastModifiedBy), so the deletion time and deleter are written directly in the query, leaving test-takers and their tests with the same timestamp and deleter.',
+                "Deletion history is written to the outbox in the same transaction before the bulk UPDATE so it can't be lost, and since CMS test-takers can now also have SNSB-III tests, all of a test-taker's tests are deleted regardless of test type.",
+              ],
+            },
+            {
+              type: 'image',
+              src: snsb3ExamineeDeleteAfter,
+              alt: 'After: select only the targets and bulk UPDATE',
+            },
+            { type: 'heading', text: 'Results' },
+            {
+              type: 'list',
+              items: [
+                'Under the failure-reproduction conditions (50K–100K test rows, 10 concurrent deletes): **zero OOMs or unresponsive server**, with list-query p95 at 9–18ms during concurrent requests — no impact',
+                'Deleting one test-taker at 100K test rows (HTTP): **700ms → 8ms**; Full GCs during 10 concurrent deletes **344 → 0**',
+                'Bulk-deleting 40,000 test-takers: **10.4s → 3.0s**, allocated memory **3.4GB → 0.2GB**, queries 200K → 3 (excluding the history INSERT)',
+              ],
+            },
+            {
+              type: 'image',
+              src: snsb3ExamineeDeleteConcurrency,
+              alt:
+                '10 concurrent delete requests: the original code stops responding from 50K rows; after the fix, tens of ms',
+            },
+            {
+              type: 'image',
+              src: snsb3ExamineeDeleteScaling,
+              alt: 'Response time and memory by number of test-takers deleted at once',
+            },
+          ],
+        },
+        {
+          title: 'SNSB Testing Platform — Standardization Web Test-taker Status Dashboard',
+          skillKeywords: ['Spring Boot', 'PostgreSQL'],
+          role: 'Joined a 2-person team · solely responsible for the test-taker dashboard part',
+          blocks: [
+            { type: 'heading', text: 'Problem' },
+            {
+              type: 'paragraph',
+              text:
+                'The SNSB-III standardization test has a predetermined number of test-takers that must be collected for each age group, gender, and years-of-education bucket. Like seat reservations, each group has a fixed capacity, and exceeding it would introduce data bias, so overflow registrations had to be strictly blocked.',
             },
             {
               type: 'paragraph',
@@ -70,17 +279,11 @@ const career: ICareer.Payload = {
           ],
         },
         {
-          title: 'SNSB3 Standardized Scoring Program — Email Delivery Architecture',
+          title: 'SNSB Testing Platform — Email Delivery Architecture',
           skillKeywords: ['Spring Boot', 'AWS SES', 'Thymeleaf'],
           role:
             'Joined a 2-person team · solely responsible for the email delivery architecture part',
           blocks: [
-            { type: 'heading', text: 'Service Overview' },
-            {
-              type: 'paragraph',
-              text:
-                'SNSB3 is a standardized neuropsychological test tool for dementia diagnosis. It is a web-based data collection platform where undergraduate students majoring in clinical fields nationwide directly administer tests to test-takers and enter and score the results, built to accumulate large-scale clinical data.',
-            },
             { type: 'heading', text: 'Problem' },
             {
               type: 'paragraph',
@@ -130,7 +333,7 @@ const career: ICareer.Payload = {
           ],
         },
         {
-          title: 'SNSB3 App — Test-entry Performance Improvement',
+          title: 'SNSB Test App — Test-entry Performance Improvement',
           skillKeywords: ['Flutter', 'Dart'],
           role:
             'Took over the first-completed app and solely carried out a full refactor and performance improvement',
@@ -139,7 +342,7 @@ const career: ICareer.Payload = {
             {
               type: 'paragraph',
               text:
-                'A service that replaces the SNSB3 test — previously done with a paper test sheet and a pen — with a tablet app. Test-takers can take the test directly in the app through to scoring, and it shares the same backend API as the web scoring program.',
+                'An examiner-facing app for administering the SNSB-III test — previously done with a paper test sheet and a pen — on a tablet. Examiners administer the test to the test-taker in the app through to scoring, and it uses the same backend API as the standardization and general (CMS) webs, where only test results are entered.',
             },
             { type: 'heading', text: 'Problem' },
             {
@@ -166,7 +369,8 @@ const career: ICareer.Payload = {
             {
               type: 'image',
               src: snsb3AppPerformance,
-              alt: 'Test-screen entry performance: before vs. after',
+              alt:
+                'Test-screen entry: one call instead of duplicates, build pages only when needed',
             },
           ],
         },
@@ -205,7 +409,7 @@ const career: ICareer.Payload = {
         },
         {
           title: 'Internal Infrastructure — Notion-Discord-AI Automated Bug-Handling Pipeline',
-          skillKeywords: ['Nest.js', 'AWS SQS', 'Discord Bot', 'Notion API'],
+          skillKeywords: ['NestJS', 'AWS SQS', 'Discord Bot', 'Notion API'],
           role: 'Solo design and implementation',
           blocks: [
             { type: 'heading', text: 'Problem' },
@@ -273,6 +477,37 @@ const career: ICareer.Payload = {
               type: 'image',
               src: bugPipelineArchitecture,
               alt: 'Automated bug-report handling pipeline',
+            },
+          ],
+        },
+        {
+          title:
+            'Internal Infrastructure — Automating Deployment Verification and Failure Tracking',
+          skillKeywords: ['NestJS', 'PostgreSQL', 'Playwright', 'Maestro'],
+          role: 'Design · implementation',
+          blocks: [
+            { type: 'heading', text: 'Problem' },
+            {
+              type: 'list',
+              items: [
+                'With every deployment, developers increasingly had to run the QA-written test cases by hand, eating into development time. With a small team, QA became a bottleneck',
+                'Test cases were not kept as history, so verification started from zero on every deployment',
+              ],
+            },
+            { type: 'heading', text: 'Solution' },
+            {
+              type: 'list',
+              items: [
+                "Moved the QA team's test cases into Playwright (web) and Maestro (mobile) scripts. Flutter integration tests couldn't get past OS permission pop-ups (camera, microphone), so I went with Maestro, which drives the app from outside the process",
+                'Modeled a TC version and run-history schema (versions · testcases · runs · run_results · run_logs) and built a state-management dashboard. Registering a schedule on the dashboard runs it automatically — a **24/7 E2E system**',
+                'Run requests are decoupled from actual execution, but with low call volume, a DB serves as the job queue instead of a separate message queue, and workers poll it. A verification-environment gate blocks direct deployment to production',
+              ],
+            },
+            {
+              type: 'image',
+              src: e2eQaArchitecture,
+              alt:
+                'Deployment verification automation: from test-case registration to sharing results',
             },
           ],
         },
