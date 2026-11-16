@@ -1,20 +1,20 @@
 import { ICareer } from '../../component/career/ICareer';
-import snsb3DashboardLock from '../../asset/career/snsb3-dashboard-lock.png';
-import snsb3EmailArchitecture from '../../asset/career/snsb3-email-architecture.png';
-import snsb3AppPerformance from '../../asset/career/snsb3-app-performance.png';
-import mcpServerArchitecture from '../../asset/career/mcp-server-architecture.png';
-import bugPipelineArchitecture from '../../asset/career/bug-pipeline-architecture.png';
-import laserSystemArchitecture from '../../asset/career/laser-system-architecture.png';
-import e2eQaArchitecture from '../../asset/career/e2e-qa-architecture.png';
-import snsb3IntegrationBefore from '../../asset/career/snsb3-integration-before.png';
-import snsb3IntegrationAfter from '../../asset/career/snsb3-integration-after.png';
-import snsb3MigrationRehearsal from '../../asset/career/snsb3-migration-rehearsal.png';
-import snsb3HistoryBefore from '../../asset/career/snsb3-history-before.png';
-import snsb3HistoryAfter from '../../asset/career/snsb3-history-after.png';
-import snsb3ExamineeDeleteBefore from '../../asset/career/snsb3-examinee-delete-before.png';
-import snsb3ExamineeDeleteAfter from '../../asset/career/snsb3-examinee-delete-after.png';
-import snsb3ExamineeDeleteConcurrency from '../../asset/career/snsb3-examinee-delete-concurrency.png';
-import snsb3ExamineeDeleteScaling from '../../asset/career/snsb3-examinee-delete-scaling.png';
+import snsb3DashboardLock from '../../asset/career/snsb3-dashboard-lock-en.png';
+import snsb3EmailArchitecture from '../../asset/career/snsb3-email-architecture-en.png';
+import snsb3AppPerformance from '../../asset/career/snsb3-app-performance-en.png';
+import mcpServerArchitecture from '../../asset/career/mcp-server-architecture-en.png';
+import bugPipelineArchitecture from '../../asset/career/bug-pipeline-architecture-en.png';
+import laserSystemArchitecture from '../../asset/career/laser-system-architecture-en.png';
+import e2eQaArchitecture from '../../asset/career/e2e-qa-architecture-en.png';
+import snsb3IntegrationBefore from '../../asset/career/snsb3-integration-before-en.png';
+import snsb3IntegrationAfter from '../../asset/career/snsb3-integration-after-en.png';
+import snsb3MigrationRehearsal from '../../asset/career/snsb3-migration-rehearsal-en.png';
+import snsb3HistoryBefore from '../../asset/career/snsb3-history-before-en.png';
+import snsb3HistoryAfter from '../../asset/career/snsb3-history-after-en.png';
+import snsb3ExamineeDeleteBefore from '../../asset/career/snsb3-examinee-delete-before-en.png';
+import snsb3ExamineeDeleteAfter from '../../asset/career/snsb3-examinee-delete-after-en.png';
+import snsb3ExamineeDeleteConcurrency from '../../asset/career/snsb3-examinee-delete-concurrency-en.png';
+import snsb3ExamineeDeleteScaling from '../../asset/career/snsb3-examinee-delete-scaling-en.png';
 
 const career: ICareer.Payload = {
   disable: false,
