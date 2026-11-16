@@ -4,6 +4,27 @@ const openSource: IOpenSource.Payload = {
   disable: false,
   list: [
     {
+      title: '트레이딩 짐 — AI 투자 코칭 에이전트',
+      descriptions: [
+        {
+          content: '2026 금융 AI Challenge(상상을 넘어 실제로, AI로 움직이는 금융의 미래) 출품작',
+          boldText: '2026 금융 AI Challenge',
+        },
+        {
+          content:
+            '실제 시세 기반 모의투자로 레버리지·반대매매 같은 위험을 미리 겪어 보고, AI가 매매 습관을 진단해 맞춤 학습과 재도전까지 잇는 투자 교육 서비스',
+        },
+        {
+          content:
+            '금융감독원 e-금융교육센터 등 공공 금융교육 자료를 RAG 지식베이스로 구축해, 출처를 인용하는 AI 채팅과 진단 결과 기반 맞춤 퀴즈 제공',
+        },
+        {
+          content: 'github.com/ghals5737/trading-gym',
+          href: 'https://github.com/ghals5737/trading-gym',
+        },
+      ],
+    },
+    {
       title: 'AI 자율 트레이딩 시스템',
       descriptions: [
         { content: 'AI가 시세·지표 분석부터 매매 판단까지 자율 수행하는 트레이딩 에이전트' },
