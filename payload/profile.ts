@@ -1,4 +1,4 @@
-import { faBlog, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faBirthdayCake, faBlog, faEnvelope, faPhone } from '@fortawesome/free-solid-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
 import { faBell } from '@fortawesome/free-regular-svg-icons';
@@ -14,6 +14,10 @@ const profile: IProfile.Payload = {
     small: '백엔드 개발자 · 2년차',
   },
   contact: [
+    {
+      title: '1999.10.27',
+      icon: faBirthdayCake,
+    },
     {
       title: '99kimst@gmail.com',
       link: 'mailto:99kimst@gmail.com',
