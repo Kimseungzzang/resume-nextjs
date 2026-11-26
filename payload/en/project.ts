@@ -12,8 +12,8 @@ const project: IProject.Payload = {
       descriptions: [
         {
           content:
-            'Refactored and unified the research (standardization) and general service APIs — split code that had grown separately per service along two axes, service and test type (SNSB-II/III), added ArchUnit tests to CI, and cut endpoints from 140 to 87',
-          boldText: 'cut endpoints from 140 to 87',
+            'Refactored and unified the research (standardization) and general service APIs — split code that had grown separately per service along two axes, service and test type (SNSB-II/III), and added ArchUnit tests to CI',
+          boldText: 'added ArchUnit tests to CI',
         },
         {
           content:
