@@ -12,8 +12,8 @@ const project: IProject.Payload = {
       descriptions: [
         {
           content:
-            '연구용(표준화)·일반 서비스 API 통합 리팩토링 — 서비스마다 따로 자라 중복되던 코드를 서비스 구분과 검사 종류(SNSB-II·III) 두 축으로 분리, ArchUnit 테스트 도입 및 CI 적용, 엔드포인트 140개 → 87개',
-          boldText: '엔드포인트 140개 → 87개',
+            '연구용(표준화)·일반 서비스 API 통합 리팩토링 — 서비스마다 따로 자라 중복되던 코드를 서비스 구분과 검사 종류(SNSB-II·III) 두 축으로 분리, ArchUnit 테스트 도입 및 CI 적용',
+          boldText: 'ArchUnit 테스트 도입 및 CI 적용',
         },
         {
           content:
