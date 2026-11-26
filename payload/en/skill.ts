@@ -2,7 +2,7 @@ import { ISkill } from '../../component/skill/ISkill';
 
 const backend: ISkill.Skill = {
   category: 'Backend',
-  items: [{ title: 'Spring Boot' }, { title: 'NestJS' }, { title: 'Kotlin' }, { title: 'Java' }],
+  items: [{ title: 'Spring Boot' }, { title: 'Kotlin' }, { title: 'Java' }],
 };
 
 const frontend: ISkill.Skill = {
@@ -12,17 +12,20 @@ const frontend: ISkill.Skill = {
 
 const database: ISkill.Skill = {
   category: 'Database',
-  items: [{ title: 'PostgreSQL' }, { title: 'MariaDB' }, { title: 'MongoDB' }, { title: 'Redis' }],
+  items: [{ title: 'PostgreSQL' }, { title: 'MariaDB' }],
 };
 
 const infraDevOps: ISkill.Skill = {
   category: 'Infra / DevOps',
   items: [
     { title: 'AWS ECS' },
-    { title: 'EC2' },
-    { title: 'SQS' },
-    { title: 'SNS' },
-    { title: 'Docker Compose' },
+    { title: 'AWS EC2' },
+    { title: 'AWS S3' },
+    { title: 'AWS SQS' },
+    { title: 'AWS SNS' },
+    { title: 'Terraform' },
+    { title: 'Flyway' },
+    { title: 'GitHub Actions' },
   ],
 };
 
