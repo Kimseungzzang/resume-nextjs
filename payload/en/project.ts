@@ -27,7 +27,7 @@ const project: IProject.Payload = {
         },
         {
           content:
-            'In a k6 target-load test (900 users, 50 minutes), traced 1 failure out of 39,523 requests to a race between Tomcat keep-alive and the ALB idle timeout, and fixed the setting',
+            'In a k6 target-load test, traced 1 failure out of 39,523 requests to a race between Tomcat keep-alive and the ALB idle timeout, and fixed the setting',
           boldText: 'a race between Tomcat keep-alive and the ALB idle timeout',
         },
         {
@@ -37,7 +37,7 @@ const project: IProject.Payload = {
         },
         {
           content:
-            'Fixed it with conditional queries and bulk UPDATEs — deleting one test-taker at 100K rows went from 700ms to 8ms; with 10 concurrent deletes, zero OOMs and Full GCs from 344 to 0',
+            'Fixed it with conditional queries and bulk UPDATEs — deleting one test-taker at 100K rows went from 700ms to 8ms, with zero OOMs and Full GCs from 344 to 0',
           boldText: '700ms to 8ms',
         },
         {

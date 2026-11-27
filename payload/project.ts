@@ -27,7 +27,7 @@ const project: IProject.Payload = {
         },
         {
           content:
-            'k6 목표 부하 테스트(900명·50분)에서 39,523건 중 1건 실패를 추적해 Tomcat keep-alive와 ALB idle timeout 경합을 찾아 설정 반영',
+            'k6 목표 부하 테스트에서 39,523건 중 1건 실패를 추적해 Tomcat keep-alive와 ALB idle timeout 경합을 찾아 설정 반영',
           boldText: 'Tomcat keep-alive와 ALB idle timeout 경합',
         },
         {
@@ -37,7 +37,7 @@ const project: IProject.Payload = {
         },
         {
           content:
-            '조건 조회·벌크 UPDATE로 개선 — 10만 행 기준 1명 삭제 700ms → 8ms, 동시 삭제 10건에서 OOM 0건·Full GC 344회 → 0회',
+            '조건 조회·벌크 UPDATE로 개선 — 10만 행 기준 1명 삭제 700ms → 8ms, OOM 0건·Full GC 344회 → 0회',
           boldText: '700ms → 8ms',
         },
         {
