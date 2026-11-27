@@ -1,7 +1,6 @@
 import { ICareer } from '../component/career/ICareer';
 import snsb3DashboardLock from '../asset/career/snsb3-dashboard-lock.png';
 import snsb3EmailArchitecture from '../asset/career/snsb3-email-architecture.png';
-import snsb3AppPerformance from '../asset/career/snsb3-app-performance.png';
 import mcpServerArchitecture from '../asset/career/mcp-server-architecture.png';
 import bugPipelineArchitecture from '../asset/career/bug-pipeline-architecture.png';
 import e2eQaArchitecture from '../asset/career/e2e-qa-architecture.png';
@@ -322,46 +321,6 @@ const career: ICareer.Payload = {
               type: 'image',
               src: snsb3EmailArchitecture,
               alt: '이메일 발송 구조: 커밋 후 비동기 처리',
-            },
-          ],
-        },
-        {
-          title: 'SNSB 검사 앱 — 검사 진입 성능 개선',
-          skillKeywords: ['Flutter', 'Dart'],
-          role: '1차 완성 앱 인수 후 전체 리팩토링 및 성능 개선 단독 진행',
-          blocks: [
-            { type: 'heading', text: '서비스 정의' },
-            {
-              type: 'paragraph',
-              text:
-                '기존에 검사지와 펜으로 진행하던 SNSB-III 검사를 태블릿으로 진행하는 검사자용 앱입니다. 검사자가 앱으로 수검자를 직접 검사하고 채점까지 하며, 검사 결과만 입력하는 표준화 웹·일반(CMS) 웹과 같은 백엔드 API를 씁니다.',
-            },
-            { type: 'heading', text: '문제 상황' },
-            {
-              type: 'paragraph',
-              text:
-                '검사 화면 진입 시 첫 진입 약 5.9초, 재진입 약 3.6초의 지연이 발생했습니다. Flutter DevTools로 측정한 결과, 진입 초기화 API 자체는 131ms로 빠르지만 이후 화면 로딩에서 병목이 집중되는 것을 확인했습니다. 원인은 두 가지였습니다.',
-            },
-            {
-              type: 'list',
-              items: [
-                'API 중복 호출(Thundering Herd) — 검사 화면은 28개의 세부 검사 항목으로 구성됩니다. 검사 데이터 조회 API가 항목별로 분리되어 있지 않고 전체 검사 결과를 한 번에 내려주는 구조였기 때문에, 각 항목 컨트롤러가 초기화될 때마다 동일한 전체 조회 API를 각자 독립적으로 호출했습니다. 컨트롤러 초기화가 순차적으로 일어나면서 **동일한 응답을 받기 위한 호출이 최대 28번까지 누적**됐습니다.',
-                '전체 페이지 일괄 렌더링 — 페이지 전환마다 위젯 생성과 API 호출에 따른 지연이 발생하는 것을 피하기 위해, IndexedStack으로 약 39개 검사 페이지 위젯을 진입 시점에 모두 빌드하고 각자 API를 호출해두는 방식으로 구현되어 있었습니다. 그 결과 페이지 전환은 빨랐지만, 진입 시점에 위젯 빌드와 API 호출이 한꺼번에 몰려 초기 부하가 컸습니다.',
-              ],
-            },
-            { type: 'heading', text: '해결 방법' },
-            {
-              type: 'list',
-              items: [
-                '서버 진입 API 신설 — 근본 원인이 API 설계에 있다고 판단해, 검사 화면 진입에 필요한 수검자 정보·검사 목록·세부 검사 데이터를 한 번에 내려주는 **shell-init 집계 엔드포인트를 백엔드에 추가**했습니다. 앱은 진입 시 이 API를 한 번만 호출해 전체 데이터를 받고, 이를 세부 검사별로 캐시에 적재합니다.',
-                'API 중복 호출 제거 — 첫 번째 호출자만 실제 API를 호출하고, 나머지 27개는 동일한 Future를 공유해 대기하도록 처리했습니다. API 응답이 도착하면 결과를 캐시에 저장하고, 이후 요청은 캐시 히트로 즉시 반환되어 **최대 28번이던 API 호출을 1번으로 줄였습니다**. 이 캐시는 세션 동안 재사용되므로 정합성 관리가 필요했습니다. 캐시에 데이터가 없는 경우(캐시 미스)에는 API를 다시 호출하는 fallback을 두었고, 각 세부 페이지의 결과를 종합해 보여주는 검사 결과 페이지에서는 초기에 변경 전 캐시값이 그대로 표시되는 문제가 있어, 세부 페이지에서 값을 변경하면 해당 캐시를 즉시 갱신해 결과 페이지 진입 시 항상 최신 값이 반영되도록 처리했습니다.',
-                'Lazy 빌드 전환 — IndexedStack은 유지한 채 children을 지연 생성하도록 변경했습니다. 진입 시점에는 방문하지 않은 페이지를 빈 위젯으로 두고, 페이지를 처음 열 때만 실제 위젯을 빌드해 슬롯을 채웁니다. IndexedStack을 유지했기 때문에 한 번 빌드된 페이지는 트리에 남아 **입력 상태가 그대로 보존**되고, 재방문 시 리빌드도 발생하지 않습니다. 검사 데이터는 앞서 캐시에 적재되어 있어 페이지를 처음 열 때도 추가 API 호출 없이 위젯만 빌드하면 됩니다. 그 결과 페이지 전환 속도는 유지하면서 진입 시점의 초기 부하만 크게 줄일 수 있었습니다.',
-              ],
-            },
-            {
-              type: 'image',
-              src: snsb3AppPerformance,
-              alt: '검사 화면 진입: 중복 호출을 하나로, 빌드는 필요할 때만',
             },
           ],
         },

@@ -60,43 +60,6 @@ const openSource: IOpenSource.Payload = {
         },
       ],
     },
-    {
-      title: '대용량 트래픽 티케팅 시스템',
-      descriptions: [
-        { content: 'MSA 구조와 대용량 트래픽 처리를 학습하기 위한 티케팅 프로젝트' },
-        {
-          content: 'k6를 별도 머신에서 실행해 내부망으로 1만 RPS 규모의 대기열 큐 부하 테스트 수행',
-        },
-        {
-          content:
-            '입장 처리 로직의 레이스 컨디션으로 수용 한도(1,000명)를 3배(3,000명)까지 초과하는 버그를 실측 발견',
-          boldText: '수용 한도(1,000명)를 3배(3,000명)까지 초과하는 버그를 실측 발견',
-        },
-        {
-          content: '고정 3초 폴링 → 순번 기반 동적 폴링으로 전환해 폴링 트래픽 44% 감소',
-        },
-        {
-          content: 'Redis를 직접 구현하고, real Redis와 처리량·지연 비교 분석',
-          descriptions: [
-            {
-              content:
-                '자체 구현은 목표 1,000 req/s부터 처리량·지연 급격 저하, real Redis는 9,583 req/s(p95 284ms)까지 처리',
-            },
-            {
-              content: 'Netty 이벤트 루프 위에 RESP 프로토콜 파싱과 Sorted Set 명령을 직접 구현',
-            },
-          ],
-        },
-        {
-          content: 'github.com/Kimseungzzang/ticketing',
-          href: 'https://github.com/Kimseungzzang/ticketing',
-        },
-        {
-          content: '블로그 글 보기',
-          href: 'https://velog.io/@kimseungzzang/Temp-Title-tkcylmzb',
-        },
-      ],
-    },
   ],
 };
 

@@ -1,7 +1,6 @@
 import { ICareer } from '../../component/career/ICareer';
 import snsb3DashboardLock from '../../asset/career/snsb3-dashboard-lock-en.png';
 import snsb3EmailArchitecture from '../../asset/career/snsb3-email-architecture-en.png';
-import snsb3AppPerformance from '../../asset/career/snsb3-app-performance-en.png';
 import mcpServerArchitecture from '../../asset/career/mcp-server-architecture-en.png';
 import bugPipelineArchitecture from '../../asset/career/bug-pipeline-architecture-en.png';
 import laserSystemArchitecture from '../../asset/career/laser-system-architecture-en.png';
@@ -329,48 +328,6 @@ const career: ICareer.Payload = {
               type: 'image',
               src: snsb3EmailArchitecture,
               alt: 'Email-sending architecture: async processing after commit',
-            },
-          ],
-        },
-        {
-          title: 'SNSB Test App — Test-entry Performance Improvement',
-          skillKeywords: ['Flutter', 'Dart'],
-          role:
-            'Took over the first-completed app and solely carried out a full refactor and performance improvement',
-          blocks: [
-            { type: 'heading', text: 'Service Overview' },
-            {
-              type: 'paragraph',
-              text:
-                'An examiner-facing app for administering the SNSB-III test — previously done with a paper test sheet and a pen — on a tablet. Examiners administer the test to the test-taker in the app through to scoring, and it uses the same backend API as the standardization and general (CMS) webs, where only test results are entered.',
-            },
-            { type: 'heading', text: 'Problem' },
-            {
-              type: 'paragraph',
-              text:
-                'Entering the test screen took about 5.9 seconds on first entry and about 3.6 seconds on re-entry. Measuring with Flutter DevTools, I found the entry-initialization API itself was fast at 131ms, but the bottleneck was concentrated in the subsequent screen loading. There were two causes.',
-            },
-            {
-              type: 'list',
-              items: [
-                "Duplicate API calls (thundering herd) — the test screen is made up of 28 individual sub-test items. Since the test-data lookup API wasn't split per item and instead returned the entire test result at once, every item controller independently called the same full-lookup API each time it initialized. Because controller initialization happened sequentially, **up to 28 calls for the same response accumulated**.",
-                'Rendering all pages up front — to avoid delays from widget creation and API calls on every page transition, the app used an IndexedStack to build all ~39 test-page widgets and fire off each of their API calls at entry time. This made page transitions fast, but caused a large initial load because widget building and API calls all piled up at entry time.',
-              ],
-            },
-            { type: 'heading', text: 'Solution' },
-            {
-              type: 'list',
-              items: [
-                'Added a server-side entry API — judging that the root cause lay in the API design, I **added a shell-init aggregate endpoint to the backend** that returns the test-taker info, test list, and sub-test data needed for the test screen in a single response. The app now calls this once on entry and loads the full payload into its per-sub-test cache.',
-                "Removed duplicate API calls — only the first caller triggers the real API call, and the other 27 share and await the same Future. Once the API response arrives, the result is cached, and subsequent requests return immediately as cache hits, **cutting what used to be up to 28 API calls down to 1**. Because this cache is reused for the whole session, consistency needed to be managed: I added a fallback that re-calls the API on a cache miss, and since the results page — which aggregates every sub-page's result — initially showed the stale, pre-change cached value, I made each sub-page immediately refresh its cache entry on value change so the results page always reflects the latest value on entry.",
-                'Switched to lazy building — kept the IndexedStack but made its children build lazily. At entry time, unvisited pages are placeholder widgets, and a real widget is built into the slot only when that page is first opened. Because the IndexedStack was kept, a page that has been built stays in the tree, so **its input state is fully preserved** and revisiting never triggers a rebuild. The test data is already in the cache by then, so opening a page for the first time only builds the widget, with no additional API call. As a result, I greatly reduced the initial load at entry time while keeping page transitions just as fast.',
-              ],
-            },
-            {
-              type: 'image',
-              src: snsb3AppPerformance,
-              alt:
-                'Test-screen entry: one call instead of duplicates, build pages only when needed',
             },
           ],
         },
