@@ -65,38 +65,6 @@ const project: IProject.Payload = {
       skillKeywords: ['Next.js', 'Spring Boot', 'PostgreSQL', 'ECS'],
     },
     {
-      title: 'SNSB 검사 앱',
-      where: '휴브알엔씨',
-      startedAt: '2026-01',
-      summary: 'SNSB 검사를 태블릿으로 진행·채점하는 검사자용 앱',
-      descriptions: [
-        { content: '검사자용 태블릿 검사·채점 앱 개발' },
-        {
-          content:
-            '검사 진입 시 같은 데이터를 28번 부르던 중복 API 호출을 요청 공유로 1회로 줄이고, 진입용 집계 API 신설과 페이지 지연 생성(Lazy 빌드)으로 진입 지연 개선',
-          boldText: '요청 공유로 1회',
-        },
-      ],
-      skillKeywords: ['Flutter'],
-    },
-    {
-      title: 'SNSB 모아찍기 앱',
-      where: '휴브알엔씨',
-      startedAt: '2026-01',
-      summary: '지필 검사지를 촬영해 일괄 인식·정리하는 보조 앱',
-      descriptions: [
-        {
-          content: 'AI 이미지 인식 모델 파인튜닝 및 이미지 전후처리 기능 구현',
-          boldText: 'AI 이미지 인식 모델 파인튜닝',
-        },
-        {
-          content:
-            'FCM, SNS를 이용한 푸시 이벤트를 통해 SNSB 검사 앱에 실시간 사진 업로드 기능 구현',
-        },
-      ],
-      skillKeywords: ['Flutter', 'OpenCV', 'FCM'],
-    },
-    {
       title: '사내 개발 인프라',
       where: '휴브알엔씨',
       startedAt: '2026-01',

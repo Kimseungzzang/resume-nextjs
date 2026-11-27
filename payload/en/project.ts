@@ -65,40 +65,6 @@ const project: IProject.Payload = {
       skillKeywords: ['Next.js', 'Spring Boot', 'PostgreSQL', 'ECS'],
     },
     {
-      title: 'SNSB Test App',
-      where: 'HBRC',
-      startedAt: '2026-01',
-      summary: 'An examiner-facing app for administering and scoring the SNSB test on a tablet',
-      descriptions: [
-        { content: 'Built a tablet app for examiners to administer and score the test' },
-        {
-          content:
-            'On test entry, cut duplicate calls for the same data from 28 to 1 by sharing the in-flight request, and reduced entry latency with a new aggregate entry API and lazy page building',
-          boldText: 'from 28 to 1 by sharing the in-flight request',
-        },
-      ],
-      skillKeywords: ['Flutter'],
-    },
-    {
-      title: 'SNSB Batch Capture App',
-      where: 'HBRC',
-      startedAt: '2026-01',
-      summary:
-        'A companion app that photographs paper test sheets and batch-recognizes and organizes them',
-      descriptions: [
-        {
-          content:
-            'Fine-tuned an AI image recognition model and implemented image pre/post-processing',
-          boldText: 'Fine-tuned an AI image recognition model',
-        },
-        {
-          content:
-            'Implemented real-time photo uploads to the SNSB test app via push events using FCM and SNS',
-        },
-      ],
-      skillKeywords: ['Flutter', 'OpenCV', 'FCM'],
-    },
-    {
       title: 'Internal Developer Infrastructure',
       where: 'HBRC',
       startedAt: '2026-01',

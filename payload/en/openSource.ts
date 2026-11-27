@@ -68,50 +68,6 @@ const openSource: IOpenSource.Payload = {
         },
       ],
     },
-    {
-      title: 'High-Traffic Ticketing System',
-      descriptions: [
-        {
-          content:
-            'A ticketing project built to learn MSA architecture and high-traffic processing',
-        },
-        {
-          content:
-            'Ran load tests on the waiting queue at a scale of 10,000 RPS, driving k6 from a separate machine over the internal network',
-        },
-        {
-          content:
-            'Empirically discovered a bug where a race condition in the entry-processing logic caused the capacity limit (1,000) to be exceeded by up to 3x (3,000)',
-          boldText:
-            'Empirically discovered a bug where a race condition in the entry-processing logic caused the capacity limit (1,000) to be exceeded by up to 3x (3,000)',
-        },
-        {
-          content:
-            'Reduced polling traffic by 44% by switching from fixed 3-second polling to dynamic polling based on queue position',
-        },
-        {
-          content: 'Implemented Redis myself and compared throughput/latency against real Redis',
-          descriptions: [
-            {
-              content:
-                'My own implementation degraded sharply in throughput/latency starting around the 1,000 req/s target, while real Redis handled up to 9,583 req/s (p95 284ms)',
-            },
-            {
-              content:
-                'Built RESP protocol parsing and Sorted Set commands on top of a Netty event loop',
-            },
-          ],
-        },
-        {
-          content: 'github.com/Kimseungzzang/ticketing',
-          href: 'https://github.com/Kimseungzzang/ticketing',
-        },
-        {
-          content: 'Read blog post',
-          href: 'https://velog.io/@kimseungzzang/Temp-Title-tkcylmzb',
-        },
-      ],
-    },
   ],
 };
 

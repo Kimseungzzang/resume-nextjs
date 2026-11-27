@@ -13,17 +13,18 @@ const introduce: IIntroduce.Payload = {
     },
     {
       content:
-        'While production data was still too small to expose it, I used load tests and GC logs to calculate when an OOM would hit and fixed it in advance, and built a structure that loses zero change-history records even when the server is force-killed.',
-      boldText: 'calculate when an OOM would hit and fixed it in advance',
+        'Test data cannot be off by even a single record, so I put data consistency and concurrency first. I tied change history to the same transaction with a Transactional Outbox so that zero records are lost even when the server is force-killed, and fixed the capacity overrun that occurred on concurrent registration with a PostgreSQL Advisory Lock.',
+      boldText: 'data consistency and concurrency',
     },
     {
       content:
-        'To grow as a backend developer around concurrency issues and traffic load, I went beyond internal projects and built a ticketing program myself to load-test its waiting queue, getting hands-on experience with high-traffic processing.',
+        'I handle deployment and operation myself, and I use metrics to make resource and architecture decisions. By analyzing GC logs and load-test metrics, I calculated an OOM limit that had not yet surfaced and changed the query structure before it could hit.',
+      boldText: 'I use metrics to make resource and architecture decisions',
     },
     {
       content:
-        "By building things like an automated trading agent, an internal MCP server, and a session-management pipeline, and by serving open-model LLMs on GPUs and tuning VRAM myself to study AI infrastructure, I'm adapting to a development environment that keeps changing in the AI era.",
-      boldText: 'adapting to a development environment that keeps changing',
+        'I automate repetitive work into tools the whole team uses. I built an internal MCP server that brings API specs, the database, and monitoring together, and an E2E QA dashboard that runs QA test cases automatically around the clock.',
+      boldText: 'automate repetitive work into tools the whole team uses',
     },
   ],
   sign: 'Seungjun Kim',
